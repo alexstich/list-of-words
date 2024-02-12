@@ -10,16 +10,15 @@ import UIKit
 
 final class ListWordsWorker
 {
-    func fetchListWords(_ completion: (ListWords.FetchListWords.ViewModel.Words)->Void)
+    func fetchListWords(excludingWords: [String], limit: Int, offset: Int, completion: ([String])->Void)
     {
-        if let path = Bundle.main.path(forResource: "list_of_words", ofType: "txt"){
-            do {
-                let content = try String(contentsOfFile: path, encoding: .utf8)
-                let wordsArray = content.components(separatedBy: "\n")
-                completion(wordsArray)
-            } catch {
-                print("File reading error ocure: \(error.localizedDescription)")
-            }
-        }
+        let words = DatabaseManager.shared.fetchWords(excludingWords: excludingWords, limit: limit, offset: offset)
+        
+        completion(words)
+    }
+    
+    func addToListWords(word: String)
+    {
+        DatabaseManager.shared.insertWord(word: word)
     }
 }

@@ -38,7 +38,7 @@ enum WordDetails
         }
     }
     
-    enum MakeFavouriteWord
+    enum MakeFavoriteWord
     {
         struct Request
         {

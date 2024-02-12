@@ -10,6 +10,9 @@ import UIKit
 
 enum ListWords
 {
+    typealias Word = String
+    typealias Words = [String]
+    
     // MARK: Use cases
     
     enum FetchListWords
@@ -18,47 +21,50 @@ enum ListWords
         
         struct Response
         {
-            var listWords: ViewModel.Words
+            var listWords: Words
         }
         
         struct ViewModel
         {
-            typealias Word = String
-            typealias Words = [String]
-            
             var displayedWords: Words
         }
     }
     
     enum SelectWord
     {
-        struct Request {}
+        struct Request 
+        {
+            var indexPath: IndexPath
+        }
         
         struct Response
         {
-            var word: ViewModel.Word
+            var word: Word
         }
         
         struct ViewModel
         {
-            typealias Word = String
             var word: Word
         }
     }
     
     enum AddWord
     {
-        struct Request {}
+        struct Request 
+        {
+            var word: Word?
+        }
         
         struct Response
         {
-            var word: ViewModel.Word
+            var success: Bool = false
+            var word: Word?
         }
         
         struct ViewModel
         {
-            typealias Word = String
-            var word: Word
+            var word: Word?
+            var show: Bool = false
         }
     }
 }

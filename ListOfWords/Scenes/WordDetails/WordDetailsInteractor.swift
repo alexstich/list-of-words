@@ -12,7 +12,7 @@ protocol WordDetailsBusinessLogic
 {
     func addWord(request: WordDetails.AddWord.Request)
     func deleteWord(request: WordDetails.DeleteWord.Request)
-    func markFavouriteWord(request: WordDetails.MakeFavouriteWord.Request)
+    func markFavoriteWord(request: WordDetails.MakeFavoriteWord.Request)
 }
 
 protocol WordDetailsDataStore
@@ -48,7 +48,7 @@ class WordDetailsInteractor: WordDetailsBusinessLogic, WordDetailsDataStore
         //        presenter?.presentSomething(response: response)
     }
     
-    func markFavouriteWord(request: WordDetails.MakeFavouriteWord.Request)
+    func markFavoriteWord(request: WordDetails.MakeFavoriteWord.Request)
     {
         //        worker = WordDetailsWorker()
         //        worker?.doSomeWork()

@@ -11,6 +11,7 @@ import UIKit
 protocol ListWordsDisplayLogic: AnyObject
 {
     func displayFetchedListWords(viewModel: ListWords.FetchListWords.ViewModel)
+    func displayAddWord(viewModel: ListWords.AddWord.ViewModel)
 }
 
 final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
@@ -155,8 +156,8 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
     
     // MARK: - Fetch words
     
-    var displayedWords: ListWords.FetchListWords.ViewModel.Words = []
-    var favoriteWords: ListWords.FetchListWords.ViewModel.Words = []
+    var displayedWords: ListWords.Words = []
+    var favoriteWords: ListWords.Words = []
     
 
     
@@ -165,7 +166,39 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         displayedWords = viewModel.displayedWords
         tableView.reloadData()
     }
+    
+    func displayAddWord(viewModel: ListWords.AddWord.ViewModel)
+    {
+        if viewModel.show {
+            showAddWordController(title: "Add word", message: "Type word that needs to be added to the end of the file.")
+        }
+    }
+    
+    private func showAddWordController(title: String, message: String)
+    {
+        let addWordController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        addWordController.addTextField(configurationHandler: { textField in
+            textField.text = nil
+            textField.minimumFontSize = 12
+            textField.textColor = .black
+            textField.keyboardType = .default
+        })
+        
+        addWordController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { [weak addWordController] _ in
+            addWordController?.dismiss(animated: true)
+        }))
+        
+        addWordController.addAction(UIAlertAction(title: "Add", style: .default, handler: { [weak self, weak addWordController] action in
+            let request = ListWords.AddWord.Request(word: addWordController?.textFields?[0].text)
+            self?.interactor?.addWord(request: request)
+            addWordController?.dismiss(animated: true)
+        }))
+        
+        showDetailViewController(addWordController, sender: nil)
+    }
 }
+
 
 // MARK: Ineractor actions
 extension ListWordsViewController
@@ -178,12 +211,13 @@ extension ListWordsViewController
     
     func selectWord(indexPath: IndexPath)
     {
-        let request = ListWords.FetchListWords.Request()
+        let request = ListWords.SelectWord.Request(indexPath: indexPath)
         interactor?.selectWord(request: request)
         
         router?.routeToWordDetails(segue: nil)
     }
 }
+
 
 // MARK: Table delegate methods
 extension ListWordsViewController: UITableViewDataSource, UITableViewDelegate
@@ -199,7 +233,7 @@ extension ListWordsViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) 
     {
-        selectWord(indexPath: IndexPath)
+        selectWord(indexPath: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

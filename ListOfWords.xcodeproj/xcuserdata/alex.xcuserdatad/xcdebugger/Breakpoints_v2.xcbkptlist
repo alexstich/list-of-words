@@ -16,7 +16,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "15"
             endingLineNumber = "15"
-            landmarkName = "fetchListWords(_:)"
+            landmarkName = "fetchListWords(excludingWords:limit:offset:completion:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -55,22 +55,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "42CF3AD0-7852-4E4F-9516-F166EE694BEA"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ListOfWords/Scenes/ShowWordsList/ListWordsWorker.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
-            landmarkName = "fetchListWords(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "593199A6-9C18-4B7E-8035-A105B2D46615"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -78,73 +62,10 @@
             filePath = "ListOfWords/Scenes/ShowWordsList/ListWordsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
-            landmarkName = "fetchWords()"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "displayFetchedListWords(viewModel:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2331F16B-1200-46A9-A3C8-FA73E9F170F2"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ListOfWords/Scenes/ShowWordsList/ListWordsInteractor.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "fetchListWords(request:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "2331F16B-1200-46A9-A3C8-FA73E9F170F2 - e6b9a4be969e3d6d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Array&lt;Swift.String&gt;) -&gt; () in ListOfWords.ListWordsInteractor.fetchListWords(request: ListOfWords.ListWords.FetchListWords.Request) -&gt; ()"
-                  moduleName = "ListOfWords"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alex/work/pets/ListOfWords/ListOfWords/Scenes/ShowWordsList/ListWordsInteractor.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "36"
-                  endingLineNumber = "36"
-                  offsetFromSymbolStart = "268">
-               </Location>
-               <Location
-                  uuid = "2331F16B-1200-46A9-A3C8-FA73E9F170F2 - e6b9a4be969e3d6d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Array&lt;Swift.String&gt;) -&gt; () in ListOfWords.ListWordsInteractor.fetchListWords(request: ListOfWords.ListWords.FetchListWords.Request) -&gt; ()"
-                  moduleName = "ListOfWords"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alex/work/pets/ListOfWords/ListOfWords/Scenes/ShowWordsList/ListWordsInteractor.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "36"
-                  endingLineNumber = "36"
-                  offsetFromSymbolStart = "367">
-               </Location>
-               <Location
-                  uuid = "2331F16B-1200-46A9-A3C8-FA73E9F170F2 - e6b9a4be969e3d6d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Array&lt;Swift.String&gt;) -&gt; () in ListOfWords.ListWordsInteractor.fetchListWords(request: ListOfWords.ListWords.FetchListWords.Request) -&gt; ()"
-                  moduleName = "ListOfWords"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alex/work/pets/ListOfWords/ListOfWords/Scenes/ShowWordsList/ListWordsInteractor.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "36"
-                  endingLineNumber = "36"
-                  offsetFromSymbolStart = "333">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

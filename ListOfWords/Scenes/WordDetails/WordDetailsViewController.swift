@@ -12,7 +12,7 @@ protocol WordDetailsDisplayLogic: AnyObject
 {
     func addWord()
     func deleteWord()
-    func makeFavouriteWord()
+    func makeFavoriteWord()
     func displayOccurrance(value: Int)
 }
 
@@ -75,9 +75,9 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         return btn
     }()
     
-    private let markFavouriteButton: UIButton = {
+    private let markFavoriteButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("Make favourite", for: .normal)
+        btn.setTitle("Make favorite", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.tintColor = .black
         btn.backgroundColor = .white
@@ -147,14 +147,14 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         self.view.addSubview(wordOccurranceNumberLbl)
         self.view.addSubview(addButton)
         self.view.addSubview(deleteButton)
-        self.view.addSubview(markFavouriteButton)
+        self.view.addSubview(markFavoriteButton)
         
         wordLbl.translatesAutoresizingMaskIntoConstraints = false
         wordOccurranceNumberTitleLbl.translatesAutoresizingMaskIntoConstraints = false
         wordOccurranceNumberLbl.translatesAutoresizingMaskIntoConstraints = false
         addButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
-        markFavouriteButton.translatesAutoresizingMaskIntoConstraints = false
+        markFavoriteButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             wordLbl.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -192,10 +192,10 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         ])
         
         NSLayoutConstraint.activate([
-            markFavouriteButton.topAnchor.constraint(equalTo: self.deleteButton.bottomAnchor, constant: 20),
-            markFavouriteButton.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 50),
-            markFavouriteButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -50),
-            markFavouriteButton.heightAnchor.constraint(equalToConstant: CGFloat(50)),
+            markFavoriteButton.topAnchor.constraint(equalTo: self.deleteButton.bottomAnchor, constant: 20),
+            markFavoriteButton.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 50),
+            markFavoriteButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -50),
+            markFavoriteButton.heightAnchor.constraint(equalToConstant: CGFloat(50)),
         ])
     }
     
@@ -225,10 +225,10 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         interactor?.deleteWord(request: request)
     }
     
-    func makeFavouriteWord()
+    func makeFavoriteWord()
     {
-        let request = WordDetails.MakeFavouriteWord.Request()
-        interactor?.markFavouriteWord(request: request)
+        let request = WordDetails.MakeFavoriteWord.Request()
+        interactor?.markFavoriteWord(request: request)
     }
     
     func displayOccurrance(value: Int) 

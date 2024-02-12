@@ -14,6 +14,9 @@
 		FA1031932B7773A300FFBDC3 /* ListOfWordsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1031922B7773A300FFBDC3 /* ListOfWordsTests.swift */; };
 		FA10319D2B7773A300FFBDC3 /* ListOfWordsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA10319C2B7773A300FFBDC3 /* ListOfWordsUITests.swift */; };
 		FA10319F2B7773A300FFBDC3 /* ListOfWordsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA10319E2B7773A300FFBDC3 /* ListOfWordsUITestsLaunchTests.swift */; };
+		FA33EEB92B7A8AD800E5C3BF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA33EEB82B7A8AD800E5C3BF /* CoreData.framework */; };
+		FA33EEBC2B7A8B7400E5C3BF /* Dictionary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FA33EEBA2B7A8B7400E5C3BF /* Dictionary.xcdatamodeld */; };
+		FA33EEBE2B7A926F00E5C3BF /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33EEBD2B7A926F00E5C3BF /* DatabaseManager.swift */; };
 		FA44298A2B7796B50087F5EB /* ListWordsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4429842B7796B50087F5EB /* ListWordsPresenter.swift */; };
 		FA44298B2B7796B50087F5EB /* ListWordsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4429852B7796B50087F5EB /* ListWordsWorker.swift */; };
 		FA44298C2B7796B50087F5EB /* ListWordsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4429862B7796B50087F5EB /* ListWordsRouter.swift */; };
@@ -60,6 +63,9 @@
 		FA1031982B7773A300FFBDC3 /* ListOfWordsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ListOfWordsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA10319C2B7773A300FFBDC3 /* ListOfWordsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfWordsUITests.swift; sourceTree = "<group>"; };
 		FA10319E2B7773A300FFBDC3 /* ListOfWordsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfWordsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		FA33EEB82B7A8AD800E5C3BF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		FA33EEBB2B7A8B7400E5C3BF /* Dictionary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dictionary.xcdatamodel; sourceTree = "<group>"; };
+		FA33EEBD2B7A926F00E5C3BF /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		FA4429842B7796B50087F5EB /* ListWordsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListWordsPresenter.swift; sourceTree = "<group>"; };
 		FA4429852B7796B50087F5EB /* ListWordsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListWordsWorker.swift; sourceTree = "<group>"; };
 		FA4429862B7796B50087F5EB /* ListWordsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListWordsRouter.swift; sourceTree = "<group>"; };
@@ -82,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA33EEB92B7A8AD800E5C3BF /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +116,7 @@
 				FA1031912B7773A300FFBDC3 /* ListOfWordsTests */,
 				FA10319B2B7773A300FFBDC3 /* ListOfWordsUITests */,
 				FA1031792B7773A000FFBDC3 /* Products */,
+				FA33EEB72B7A8AD800E5C3BF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -130,6 +138,7 @@
 				FA4429832B7795170087F5EB /* Scenes */,
 				FA10317B2B7773A000FFBDC3 /* AppDelegate.swift */,
 				FA10317D2B7773A000FFBDC3 /* SceneDelegate.swift */,
+				FA33EEBA2B7A8B7400E5C3BF /* Dictionary.xcdatamodeld */,
 				FA1031842B7773A300FFBDC3 /* Assets.xcassets */,
 				FA1031862B7773A300FFBDC3 /* LaunchScreen.storyboard */,
 				FA1031892B7773A300FFBDC3 /* Info.plist */,
@@ -152,6 +161,14 @@
 				FA10319E2B7773A300FFBDC3 /* ListOfWordsUITestsLaunchTests.swift */,
 			);
 			path = ListOfWordsUITests;
+			sourceTree = "<group>";
+		};
+		FA33EEB72B7A8AD800E5C3BF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FA33EEB82B7A8AD800E5C3BF /* CoreData.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		FA4429832B7795170087F5EB /* Scenes */ = {
@@ -181,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				FA95DA9A2B7938A3006BC414 /* ToastMessage.swift */,
+				FA33EEBD2B7A926F00E5C3BF /* DatabaseManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -352,6 +370,8 @@
 				FA10317E2B7773A000FFBDC3 /* SceneDelegate.swift in Sources */,
 				FA44298F2B7796B50087F5EB /* ListWordsInteractor.swift in Sources */,
 				FA44298A2B7796B50087F5EB /* ListWordsPresenter.swift in Sources */,
+				FA33EEBC2B7A8B7400E5C3BF /* Dictionary.xcdatamodeld in Sources */,
+				FA33EEBE2B7A926F00E5C3BF /* DatabaseManager.swift in Sources */,
 				FA95DA962B79366E006BC414 /* WordDetailsRouter.swift in Sources */,
 				FA44298D2B7796B50087F5EB /* ListWordsModels.swift in Sources */,
 				FA44298B2B7796B50087F5EB /* ListWordsWorker.swift in Sources */,
@@ -460,7 +480,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -517,7 +537,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -701,6 +721,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FA33EEBA2B7A8B7400E5C3BF /* Dictionary.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FA33EEBB2B7A8B7400E5C3BF /* Dictionary.xcdatamodel */,
+			);
+			currentVersion = FA33EEBB2B7A8B7400E5C3BF /* Dictionary.xcdatamodel */;
+			path = Dictionary.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = FA1031702B7773A000FFBDC3 /* Project object */;
 }

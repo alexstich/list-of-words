@@ -11,12 +11,13 @@ import UIKit
 protocol ListWordsBusinessLogic
 {
     func fetchListWords(request: ListWords.FetchListWords.Request)
-    func selectWord(request: ListWords.FetchListWords.Request)
+    func selectWord(request: ListWords.SelectWord.Request)
+    func addWord(request: ListWords.AddWord.Request)
 }
 
 protocol ListWordsDataStore
 {
-    var selectedWord: ListWords.FetchListWords.ViewModel.Word? { get set }
+    var selectedWord: ListWords.Word? { get set }
 }
 
 final class ListWordsInteractor: ListWordsBusinessLogic, ListWordsDataStore
@@ -24,18 +25,43 @@ final class ListWordsInteractor: ListWordsBusinessLogic, ListWordsDataStore
     var presenter: ListWordsPresentationLogic?
     var worker: ListWordsWorker?
     
-    var fullListWords: ListWords.FetchListWords.ViewModel.Words = []
-    var favouriteWords: ListWords.FetchListWords.ViewModel.Word? = nil
-    var selectedWord: ListWords.FetchListWords.ViewModel.Word? = nil
+    var fullListWords: ListWords.Words = []
+    var favoriteWords: ListWords.Words = []
+    var selectedWord: ListWords.Word? = nil
 
     
     func fetchListWords(request: ListWords.FetchListWords.Request)
     {
+        fetchListWords()
+    }
+    
+    func selectWord(request: ListWords.SelectWord.Request) 
+    {
+        switch request.indexPath.section {
+        case 0:
+            self.selectedWord = favoriteWords[request.indexPath.row]
+        case 1:
+            self.selectedWord = fullListWords[request.indexPath.row]
+        default:
+            break
+        }
+    }
+    
+    func addWord(request: ListWords.AddWord.Request) 
+    {
+        if request.word != nil {
+            worker?.addToListWords(word: request.word!)
+            fetchListWords()
+        }
+    }
+    
+    private func fetchListWords()
+    {
         worker = ListWordsWorker()
         
-        worker?.fetchListWords() { [weak self] listWords in
+        worker?.fetchListWords(excludingWords: favoriteWords, limit: 100, offset: fullListWords.count) { [weak self] listWords in
             
-            self?.listWords = listWords
+            self?.fullListWords = self!.fullListWords + listWords
             
             let response = ListWords.FetchListWords.Response(listWords: listWords)
             self?.presenter?.presentFetchedListWords(response: response)
