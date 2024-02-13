@@ -198,16 +198,11 @@ class DatabaseManager
             sqlite3_bind_int(queryStatement, Int32(excludedWords.count + 2), Int32(offset))
             
             while sqlite3_step(queryStatement) == SQLITE_ROW {
-                
-                let id = sqlite3_column_int(queryStatement, 0)
-                
                 guard let queryResultCol1 = sqlite3_column_text(queryStatement, 1) else {
                     print("Error raw reading")
                     continue
                 }
-                
                 let word = String(cString: queryResultCol1)
-                
                 words.append(word)
             }
         } else {
@@ -225,7 +220,8 @@ class DatabaseManager
         let createWordTableCommand = """
         CREATE TABLE IF NOT EXISTS word(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            word CHAR(255),
+            word CHAR(255)
+        );
         """
         
         var createWordTableStatement: OpaquePointer?
@@ -263,7 +259,8 @@ class DatabaseManager
         let createFavoriteWordTableCommand = """
         CREATE TABLE IF NOT EXISTS favorite_word(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            word CHAR(255),
+            word CHAR(255)
+        );
         """
         
         var createFavoriteWordTableStatement: OpaquePointer?
