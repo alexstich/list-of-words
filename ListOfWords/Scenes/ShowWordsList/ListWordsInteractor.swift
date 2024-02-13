@@ -61,10 +61,12 @@ final class ListWordsInteractor: ListWordsBusinessLogic, ListWordsDataStore
         
         worker?.fetchListWords(excludingWords: favoriteWords, limit: 100, offset: fullListWords.count) { [weak self] listWords in
             
-            self?.fullListWords = self!.fullListWords + listWords
+            guard let self = self else { return }
             
-            let response = ListWords.FetchListWords.Response(listWords: listWords)
-            self?.presenter?.presentFetchedListWords(response: response)
+            self.fullListWords = self.fullListWords + listWords
+            
+            let response = ListWords.FetchListWords.Response(listWords: self.fullListWords)
+            self.presenter?.presentFetchedListWords(response: response)
         }
     }
 }

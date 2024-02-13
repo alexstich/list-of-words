@@ -48,6 +48,7 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         return btn
     }()
     
+    var isLoadingData = false
     
     // MARK: Object lifecycle
     
@@ -219,8 +220,8 @@ extension ListWordsViewController
 }
 
 
-// MARK: Table delegate methods
-extension ListWordsViewController: UITableViewDataSource, UITableViewDelegate
+// MARK: Table data source delegate methods
+extension ListWordsViewController: UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
@@ -273,5 +274,29 @@ extension ListWordsViewController: UITableViewDataSource, UITableViewDelegate
         cell?.textLabel?.text = wordToDisplay
         
         return cell!
+    }
+}
+
+// MARK: Table scroll delegate methods
+extension ListWordsViewController: UITableViewDelegate
+{
+    func scrollViewDidScroll(_ scrollView: UIScrollView) 
+    {
+        // fetch new batch of word when you come down
+        
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let scrollViewHeight = scrollView.frame.size.height
+        
+        if !isLoadingData && (offsetY > (contentHeight - scrollViewHeight)) {
+            
+            // this prevent multiple fetching because scrollViewDidScroll invoke a lot of times
+            isLoadingData = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+                self?.isLoadingData = false
+            }
+
+            fetchWords()
+        }
     }
 }

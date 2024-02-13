@@ -62,8 +62,8 @@
             filePath = "ListOfWords/Scenes/ShowWordsList/ListWordsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
             landmarkName = "displayFetchedListWords(viewModel:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -200,14 +200,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "7FF318CE-DE27-4D13-A0AD-1DB02B9275A5"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ListOfWords/Helpers/DatabaseManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
             landmarkName = "createWordTable()"
             landmarkType = "7">
          </BreakpointContent>
@@ -258,6 +258,198 @@
                   offsetFromSymbolStart = "670">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BA888074-C213-4A0C-B5CE-F3515E947DE6"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ListOfWords/Scenes/ShowWordsList/ListWordsInteractor.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "fetchListWords()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BA888074-C213-4A0C-B5CE-F3515E947DE6 - c7d7d9b7c7e62935"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ListOfWords.ListWordsInteractor.fetchListWords() -&gt; ()"
+                  moduleName = "ListOfWords"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alex/work/pets/ListOfWords/ListOfWords/Scenes/ShowWordsList/ListWordsInteractor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "137">
+               </Location>
+               <Location
+                  uuid = "BA888074-C213-4A0C-B5CE-F3515E947DE6 - 2530d5d379d76d53"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Array&lt;Swift.String&gt;) -&gt; () in ListOfWords.ListWordsInteractor.fetchListWords() -&gt; ()"
+                  moduleName = "ListOfWords"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alex/work/pets/ListOfWords/ListOfWords/Scenes/ShowWordsList/ListWordsInteractor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "93">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5BD0306B-1A4D-4BD3-8659-37169306F8E8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ListOfWords/Scenes/ShowWordsList/ListWordsInteractor.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "fetchListWords()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5BD0306B-1A4D-4BD3-8659-37169306F8E8 - 2530d5d379d76cdf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Array&lt;Swift.String&gt;) -&gt; () in ListOfWords.ListWordsInteractor.fetchListWords() -&gt; ()"
+                  moduleName = "ListOfWords"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alex/work/pets/ListOfWords/ListOfWords/Scenes/ShowWordsList/ListWordsInteractor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "66"
+                  endingLineNumber = "66"
+                  offsetFromSymbolStart = "624">
+               </Location>
+               <Location
+                  uuid = "5BD0306B-1A4D-4BD3-8659-37169306F8E8 - 2530d5d379d76cdf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Array&lt;Swift.String&gt;) -&gt; () in ListOfWords.ListWordsInteractor.fetchListWords() -&gt; ()"
+                  moduleName = "ListOfWords"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alex/work/pets/ListOfWords/ListOfWords/Scenes/ShowWordsList/ListWordsInteractor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "66"
+                  endingLineNumber = "66"
+                  offsetFromSymbolStart = "329">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A776028A-071C-4D46-A883-B8937A69ADD0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ListOfWords/Scenes/ShowWordsList/ListWordsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "291"
+            endingLineNumber = "291"
+            landmarkName = "scrollViewDidScroll(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A776028A-071C-4D46-A883-B8937A69ADD0 - a604a0df67247e6b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ListOfWords.ListWordsViewController.scrollViewDidScroll(__C.UIScrollView) -&gt; ()"
+                  moduleName = "ListOfWords"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alex/work/pets/ListOfWords/ListOfWords/Scenes/ShowWordsList/ListWordsViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "293"
+                  endingLineNumber = "293"
+                  offsetFromSymbolStart = "335">
+               </Location>
+               <Location
+                  uuid = "A776028A-071C-4D46-A883-B8937A69ADD0 - a604a0df67247e6b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ListOfWords.ListWordsViewController.scrollViewDidScroll(__C.UIScrollView) -&gt; ()"
+                  moduleName = "ListOfWords"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alex/work/pets/ListOfWords/ListOfWords/Scenes/ShowWordsList/ListWordsViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "293"
+                  endingLineNumber = "293"
+                  offsetFromSymbolStart = "498">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E393E2D3-2A7E-4C91-8384-878AF8E1463C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ListOfWords/Scenes/ShowWordsList/ListWordsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "295"
+            endingLineNumber = "295"
+            landmarkName = "scrollViewDidScroll(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "05F73679-DE05-4DA5-A904-1E2F405556D4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ListOfWords/Scenes/ShowWordsList/ListWordsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "296"
+            endingLineNumber = "296"
+            landmarkName = "scrollViewDidScroll(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AA653593-A451-4FA1-8A83-E2A5A605E837"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ListOfWords/Scenes/ShowWordsList/ListWordsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "fetchWords()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

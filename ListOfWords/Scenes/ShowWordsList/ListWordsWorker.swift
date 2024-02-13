@@ -10,11 +10,11 @@ import UIKit
 
 final class ListWordsWorker
 {
-    func fetchListWords(excludingWords: [String], limit: Int, offset: Int, completion: ([String])->Void)
+    func fetchListWords(excludingWords: [String], limit: Int, offset: Int, completion: @escaping ([String])->Void)
     {
-        let words = DatabaseManager.shared.fetchWords(excludingWords: excludingWords, limit: limit, offset: offset)
-        
-        completion(words)
+        DatabaseManager.shared.fetchWords(excludingWords: excludingWords, limit: limit, offset: offset) { words in
+            completion(words)
+        }
     }
     
     func addToListWords(word: String)
