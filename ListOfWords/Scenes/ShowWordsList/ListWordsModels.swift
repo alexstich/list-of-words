@@ -50,7 +50,11 @@ enum ListWords
     
     enum AddWord
     {
-        struct Request 
+        enum Result {
+            case success, failure
+        }
+        
+        struct Request
         {
             var word: Word?
         }
@@ -64,7 +68,7 @@ enum ListWords
         struct ViewModel
         {
             var word: Word?
-            var show: Bool = false
+            var result: Result = .failure
         }
     }
 }

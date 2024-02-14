@@ -11,7 +11,7 @@ import UIKit
 protocol ListWordsDisplayLogic: AnyObject
 {
     func displayFetchedListWords(viewModel: ListWords.FetchListWords.ViewModel)
-    func displayAddWord(viewModel: ListWords.AddWord.ViewModel)
+    func displayAddWordResult(viewModel: ListWords.AddWord.ViewModel)
 }
 
 final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
@@ -149,6 +149,16 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
     {
         refreshControl.addTarget(self, action: #selector(refreshTable), for: UIControl.Event.valueChanged)
         
+        addButton.addAction(UIAction { [weak self] _ in
+            self?.showAddWordController(
+                title: "Add word",
+                message: "Type word that needs to be added to the end of the file.",
+                completion: { word in
+                    let request = ListWords.AddWord.Request(word: word)
+                    self?.interactor?.addWord(request: request)
+                }
+            )
+        }, for: .touchUpInside)
     }
     
     // MARK: Do something
@@ -160,22 +170,22 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
     var displayedWords: ListWords.Words = []
     var favoriteWords: ListWords.Words = []
     
-
-    
     func displayFetchedListWords(viewModel: ListWords.FetchListWords.ViewModel)
     {
         displayedWords = viewModel.displayedWords
         tableView.reloadData()
     }
     
-    func displayAddWord(viewModel: ListWords.AddWord.ViewModel)
+    func displayAddWordResult(viewModel: ListWords.AddWord.ViewModel)
     {
-        if viewModel.show {
-            showAddWordController(title: "Add word", message: "Type word that needs to be added to the end of the file.")
+        if viewModel.result == .success {
+            ToastMessage.show(message: "Word have been added", purpose: .info, controller: self)
+        } else {
+            ToastMessage.show(message: "Word have not been added", purpose: .alert, controller: self)
         }
     }
     
-    private func showAddWordController(title: String, message: String)
+    private func showAddWordController(title: String, message: String, completion: @escaping (String?)->Void)
     {
         let addWordController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
@@ -190,9 +200,9 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
             addWordController?.dismiss(animated: true)
         }))
         
-        addWordController.addAction(UIAlertAction(title: "Add", style: .default, handler: { [weak self, weak addWordController] action in
-            let request = ListWords.AddWord.Request(word: addWordController?.textFields?[0].text)
-            self?.interactor?.addWord(request: request)
+        addWordController.addAction(UIAlertAction(title: "Add", style: .default, handler: { [weak addWordController] action in
+            let word = addWordController?.textFields?[0].text
+            completion(word)
             addWordController?.dismiss(animated: true)
         }))
         
@@ -237,9 +247,6 @@ extension ListWordsViewController: UITableViewDataSource
         selectWord(indexPath: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    
-    // MARK: - Table view data source
     
     func numberOfSections(in tableView: UITableView) -> Int
     {

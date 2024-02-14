@@ -15,14 +15,14 @@ class ToastMessage: NSObject {
         case alert, info, warning
     }
     
-    static func show(message: String, purpuse: Purpose = .alert, controller: UIViewController? = nil)
+    static func show(message: String, purpose: Purpose = .alert, controller: UIViewController? = nil)
     {
         let toastContainer = UIView(frame: CGRect())
         toastContainer.alpha = 0.0
         toastContainer.layer.cornerRadius = 10.0
         toastContainer.clipsToBounds  =  true
         
-        switch purpuse {
+        switch purpose {
         case .alert:
             toastContainer.backgroundColor = UIColor.red.withAlphaComponent(0.5)
         case .info:
