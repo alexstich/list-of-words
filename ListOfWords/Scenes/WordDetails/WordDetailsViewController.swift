@@ -10,10 +10,8 @@ import UIKit
 
 protocol WordDetailsDisplayLogic: AnyObject
 {
-    func addWord()
-    func deleteWord()
-    func makeFavoriteWord()
-    func displayOccurrance(value: Int)
+    func displayNumberOccurrance(viewModel: WordDetails.FetchNumberOccurrance.ViewModel)
+    func displayWord(viewModel: WordDetails.FetchWord.ViewModel)
 }
 
 class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
@@ -25,7 +23,7 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         let lbl = UILabel()
         lbl.textColor = UIColor.black
         lbl.textAlignment = .center;
-        lbl.font.withSize(14.0)
+        lbl.font.withSize(16.0)
         lbl.numberOfLines = 0
         return lbl
     }()
@@ -34,7 +32,7 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         let lbl = UILabel()
         lbl.textColor = UIColor.gray
         lbl.textAlignment = .center;
-        lbl.font.withSize(14.0)
+        lbl.font.withSize(16.0)
         lbl.numberOfLines = 0
         lbl.text = "Occurance number:"
         return lbl
@@ -44,7 +42,7 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         let lbl = UILabel()
         lbl.textColor = UIColor.gray
         lbl.textAlignment = .center;
-        lbl.font.withSize(14.0)
+        lbl.font.withSize(16.0)
         lbl.numberOfLines = 0
         return lbl
     }()
@@ -98,25 +96,19 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         setupViews()
     }
     
-    //      override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
-    //      {
-    //        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    //      }
-    //
-    
     required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
     }
     
     // MARK: View lifecycle
-    
-    override func viewDidLoad()
+
+    override func viewWillAppear(_ animated: Bool) 
     {
-        super.viewDidLoad()
+        super.viewWillAppear(animated)
         
-        setupConfig()
-        setupViews()
+        fetchWord()
+        fetchNumberOccurrance()
     }
     
     // MARK: Setup
@@ -127,6 +119,7 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         let interactor = WordDetailsInteractor()
         let presenter = WordDetailsPresenter()
         let router = WordDetailsRouter()
+        
         viewController.interactor = interactor
         viewController.router = router
         interactor.presenter = presenter
@@ -157,7 +150,7 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         markFavoriteButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            wordLbl.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            wordLbl.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 50),
             wordLbl.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
             wordLbl.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
             wordLbl.heightAnchor.constraint(equalToConstant: CGFloat(50)),
@@ -211,28 +204,48 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         }
     }
     
-    // MARK: Actions
-        
-    func addWord()
+    // MARK: Interactor invoke
+    
+    private func fetchNumberOccurrance()
+    {
+        let request = WordDetails.FetchNumberOccurrance.Request()
+        interactor?.fetchNumberOccurrance(request: request)
+    }
+    
+    private func fetchWord()
+    {
+        let request = WordDetails.FetchWord.Request()
+        interactor?.fetchWord(request: request)
+    }
+    
+    private func addWord()
     {
         let request = WordDetails.AddWord.Request()
         interactor?.addWord(request: request)
     }
     
-    func deleteWord()
+    private func deleteWord()
     {
         let request = WordDetails.DeleteWord.Request()
         interactor?.deleteWord(request: request)
     }
     
-    func makeFavoriteWord()
+    private func makeFavoriteWord()
     {
         let request = WordDetails.MakeFavoriteWord.Request()
         interactor?.markFavoriteWord(request: request)
     }
     
-    func displayOccurrance(value: Int) 
+    
+    // MARK: Display Logic
+    
+    func displayNumberOccurrance(viewModel: WordDetails.FetchNumberOccurrance.ViewModel)
     {
-        wordOccurranceNumberLbl.text = "\(value)"
+        wordOccurranceNumberLbl.text = "\(viewModel.number)"
+    }
+    
+    func displayWord(viewModel: WordDetails.FetchWord.ViewModel)
+    {
+        wordLbl.text = "\(viewModel.word)"
     }
 }

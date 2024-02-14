@@ -10,7 +10,10 @@ import UIKit
 
 class WordDetailsWorker
 {
-  func doSomeWork()
-  {
-  }
+    func fetchNumberOccurrance(word: String, completion: @escaping (Int)->Void)
+    {
+        DatabaseManager.shared.wordCount(word: word) { number in
+            completion(number)
+        }
+    }
 }

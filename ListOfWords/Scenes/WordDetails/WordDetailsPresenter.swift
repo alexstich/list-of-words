@@ -10,18 +10,23 @@ import UIKit
 
 protocol WordDetailsPresentationLogic
 {
-  func presentSomething(response: WordDetails.AddWord.Response)
+    func presentNumberOccurrance(response: WordDetails.FetchNumberOccurrance.Response)
+    func presentWord(response: WordDetails.FetchWord.Response)
 }
 
 class WordDetailsPresenter: WordDetailsPresentationLogic
 {
-  weak var viewController: WordDetailsDisplayLogic?
-  
-  // MARK: Do something
-  
-  func presentSomething(response: WordDetails.AddWord.Response)
-  {
-    let viewModel = WordDetails.AddWord.ViewModel()
-    viewController?.displayOccurrance(value: 0)
-  }
+    weak var viewController: WordDetailsDisplayLogic?
+    
+    func presentNumberOccurrance(response: WordDetails.FetchNumberOccurrance.Response)
+    {
+        let viewModel = WordDetails.FetchNumberOccurrance.ViewModel(number: response.number)
+        viewController?.displayNumberOccurrance(viewModel: viewModel)
+    }
+    
+    func presentWord(response: WordDetails.FetchWord.Response)
+    {
+        let viewModel = WordDetails.FetchWord.ViewModel(word: response.word)
+        viewController?.displayWord(viewModel: viewModel)
+    }
 }

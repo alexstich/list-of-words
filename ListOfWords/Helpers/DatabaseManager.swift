@@ -26,7 +26,7 @@ class DatabaseManager
         let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("db.sqlite")
         
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
-            print("Ошибка при открытии базы данных")
+            print("Error base openning")
         }
     }
     
@@ -256,6 +256,32 @@ class DatabaseManager
             }
         }
     }
+    
+    func wordCount(word: String, completion: @escaping (Int)->Void)
+    {
+        dbQueue.async {
+            
+            let queryStatementString = "SELECT COUNT(*) FROM word WHERE word = ?;"
+            var queryStatement: OpaquePointer?
+            var count = 0
+            
+            if sqlite3_prepare_v2(self.db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+                sqlite3_bind_text(queryStatement, 1, (word as NSString).utf8String, -1, nil)
+                
+                if sqlite3_step(queryStatement) == SQLITE_ROW {
+                    count = Int(sqlite3_column_int(queryStatement, 0))
+                }
+            } else {
+                print("SELECT COUNT statement could not be prepared.")
+            }
+            sqlite3_finalize(queryStatement)
+            
+            DispatchQueue.main.async {
+                completion(count)
+            }
+        }
+    }
+
     
     private func createWordTable()
     {

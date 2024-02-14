@@ -11,7 +11,37 @@ import UIKit
 enum WordDetails
 {
     // MARK: Use cases
-        
+    
+    enum FetchWord
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+            let word: String
+        }
+        struct ViewModel
+        {
+            let word: String
+        }
+    }
+    
+    enum FetchNumberOccurrance
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+            let number: Int
+        }
+        struct ViewModel
+        {
+            let number: Int
+        }
+    }
+    
     enum AddWord
     {
         struct Request

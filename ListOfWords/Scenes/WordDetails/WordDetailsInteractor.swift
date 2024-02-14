@@ -10,6 +10,8 @@ import UIKit
 
 protocol WordDetailsBusinessLogic
 {
+    func fetchWord(request: WordDetails.FetchWord.Request)
+    func fetchNumberOccurrance(request: WordDetails.FetchNumberOccurrance.Request)
     func addWord(request: WordDetails.AddWord.Request)
     func deleteWord(request: WordDetails.DeleteWord.Request)
     func markFavoriteWord(request: WordDetails.MakeFavoriteWord.Request)
@@ -23,12 +25,35 @@ protocol WordDetailsDataStore
 class WordDetailsInteractor: WordDetailsBusinessLogic, WordDetailsDataStore
 {
     var word: String?
+    var number: Int?
     
     var presenter: WordDetailsPresentationLogic?
     var worker: WordDetailsWorker?
-    //var name: String = ""
     
-    // MARK: Do something
+    func fetchNumberOccurrance(request: WordDetails.FetchNumberOccurrance.Request)
+    {
+        worker = WordDetailsWorker()
+        
+        if let word = word {
+            
+            worker?.fetchNumberOccurrance(
+                word: word,
+                completion: { [weak self] number in
+                    
+                    self?.number = number
+                    
+                    let response = WordDetails.FetchNumberOccurrance.Response(number: number)
+                    self?.presenter?.presentNumberOccurrance(response: response)
+                }
+            )
+        }
+    }
+    
+    func fetchWord(request: WordDetails.FetchWord.Request)
+    {
+        var response = WordDetails.FetchWord.Response(word: word ?? "")
+        presenter?.presentWord(response: response)
+    }
     
     func addWord(request: WordDetails.AddWord.Request)
     {

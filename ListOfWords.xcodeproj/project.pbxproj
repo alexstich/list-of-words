@@ -30,6 +30,7 @@
 		FA95DA982B79366E006BC414 /* WordDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95DA922B79366E006BC414 /* WordDetailsViewController.swift */; };
 		FA95DA992B79366E006BC414 /* WordDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95DA932B79366E006BC414 /* WordDetailsInteractor.swift */; };
 		FA95DA9B2B7938A3006BC414 /* ToastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95DA9A2B7938A3006BC414 /* ToastMessage.swift */; };
+		FAA3D0F12B7D4173003D06B7 /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA3D0F02B7D4173003D06B7 /* ResponseError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		FA95DA922B79366E006BC414 /* WordDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailsViewController.swift; sourceTree = "<group>"; };
 		FA95DA932B79366E006BC414 /* WordDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailsInteractor.swift; sourceTree = "<group>"; };
 		FA95DA9A2B7938A3006BC414 /* ToastMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
+		FAA3D0F02B7D4173003D06B7 /* ResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +196,7 @@
 			children = (
 				FA95DA9A2B7938A3006BC414 /* ToastMessage.swift */,
 				FA33EEBD2B7A926F00E5C3BF /* DatabaseManager.swift */,
+				FAA3D0F02B7D4173003D06B7 /* ResponseError.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				FA44298E2B7796B50087F5EB /* ListWordsViewController.swift in Sources */,
 				FA95DA9B2B7938A3006BC414 /* ToastMessage.swift in Sources */,
 				FA95DA952B79366E006BC414 /* WordDetailsWorker.swift in Sources */,
+				FAA3D0F12B7D4173003D06B7 /* ResponseError.swift in Sources */,
 				FA95DA892B78DF9A006BC414 /* WordTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
