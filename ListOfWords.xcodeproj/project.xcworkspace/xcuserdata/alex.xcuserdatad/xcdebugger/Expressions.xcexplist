@@ -3,12 +3,29 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "closure #1 in DatabaseManager.fetchFavoriteWords(limit:offset:completion:):DatabaseManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "sqlite3_step(queryStatement)">
+            </PersistentString>
+            <PersistentString
+               value = "sqlite3_column_text(queryStatement, 1)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in ListWordsInteractor.fetchListWords():ListWordsInteractor.swift">
          <PersistentStrings>
             <PersistentString
                value = "self?.fullListWords.count">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "WordDetailsInteractor.fetchWord(request:):WordDetailsInteractor.swift">
+      </ContextState>
+      <ContextState
+         contextName = "WordDetailsPresenter.presentWord(response:):WordDetailsPresenter.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

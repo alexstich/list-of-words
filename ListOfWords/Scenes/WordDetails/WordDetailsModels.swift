@@ -10,6 +10,9 @@ import UIKit
 
 enum WordDetails
 {
+    typealias Word = String
+    typealias Words = [String]
+    
     // MARK: Use cases
     
     enum FetchWord
@@ -42,42 +45,77 @@ enum WordDetails
         }
     }
     
-    enum AddWord
+    enum FetchFavoriteOccurrance
     {
         struct Request
         {
         }
         struct Response
         {
+            let isFavorite: Bool
         }
         struct ViewModel
         {
+            let isFavorite: Bool
+        }
+    }
+    
+    enum AddWord
+    {
+        enum Result {
+            case success, failure
+        }
+        
+        struct Request
+        {
+            var word: Word?
+        }
+        
+        struct Response
+        {
+            var success: Bool = false
+            var word: Word?
+        }
+        
+        struct ViewModel
+        {
+            var word: Word?
+            var result: Result = .failure
         }
     }
     
     enum DeleteWord
     {
+        enum Result {
+            case success, failure
+        }
         struct Request
         {
         }
         struct Response
         {
+            var success: Bool = false
+            var word: Word?
         }
         struct ViewModel
         {
+            var word: Word?
+            var result: Result = .failure
         }
     }
     
-    enum MakeFavoriteWord
+    enum ToggleFavoriteStatus
     {
         struct Request
         {
         }
         struct Response
         {
+            let isFavorite: Bool
         }
         struct ViewModel
         {
+            let isFavorite: Bool
         }
     }
 }

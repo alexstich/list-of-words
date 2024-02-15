@@ -3,6 +3,8 @@
 //  ListOfWords
 //
 //  Created by Aleksey Grebenkin on 12.02.24.
+
+//  With ChatGPT assistance ))
 //
 
 import Foundation
@@ -131,89 +133,7 @@ class DatabaseManager
             }
         }
     }
-
-    func insertFavoriteWord(word: String) 
-    {
-        dbQueue.async {
-            
-            let insertStatementString = "INSERT INTO favorite_word (word) VALUES (?);"
-            
-            var insertStatement: OpaquePointer?
-            if sqlite3_prepare_v2(self.db, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
-                sqlite3_bind_text(insertStatement, 1, (word as NSString).utf8String, -1, nil)
-                
-                if sqlite3_step(insertStatement) == SQLITE_DONE {
-                    print("Favorite word has added successful.")
-                } else {
-                    print("Favorite word hasn't added.")
-                }
-            } else {
-                print("INSERT statement could not be prepared.")
-            }
-            sqlite3_finalize(insertStatement)
-        }
-    }
     
-    func deleteFavoriteWord(word: String) 
-    {
-        dbQueue.async {
-            
-            let deleteStatementString = "DELETE FROM favorite_word WHERE word = ?;"
-            var deleteStatement: OpaquePointer?
-            
-            if sqlite3_prepare_v2(self.db, deleteStatementString, -1, &deleteStatement, nil) == SQLITE_OK {
-                sqlite3_bind_text(deleteStatement, 1, (word as NSString).utf8String, -1, nil)
-                
-                if sqlite3_step(deleteStatement) == SQLITE_DONE {
-                    print("Favorite word has deleted successful: \(word).")
-                } else {
-                    print("Favorite word hasn't deleted.")
-                }
-            } else {
-                print("DELETE statement could not be prepared.")
-            }
-            
-            sqlite3_finalize(deleteStatement)
-        }
-    }
-    
-    func fetchFavoriteWords(limit: Int? = nil, offset: Int = 0, completion: @escaping ([String])->Void)
-    {
-        dbQueue.async {
-            
-            var queryStatementString: String
-            if limit != nil {
-                queryStatementString = "SELECT DISTINCT(word) FROM word ORDER BY id ASC LIMIT ? OFFSET ?;"
-            } else {
-                queryStatementString = "SELECT DISTINCT(word) FROM word ORDER BY id ASC;"
-            }
-            
-            var queryStatement: OpaquePointer?
-            
-            var words = [String]()
-            
-            if limit != nil {
-                sqlite3_bind_int(queryStatement, 1, Int32(limit!))
-                sqlite3_bind_int(queryStatement, 2, Int32(offset))
-            }
-            
-            if sqlite3_prepare_v2(self.db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
-                while sqlite3_step(queryStatement) == SQLITE_ROW {
-                    let word = String(describing: String(cString: sqlite3_column_text(queryStatement, 1)))
-                    words.append(word)
-                }
-            } else {
-                print("SELECT statement could not be prepared")
-            }
-            
-            sqlite3_finalize(queryStatement)
-            
-            DispatchQueue.main.async {
-                completion(words)
-            }
-        }
-    }
-
     func fetchWords(excludingWords excludedWords: [String], limit: Int = 100, offset: Int = 0, completion: @escaping ([String])->Void)
     {
         dbQueue.async {
@@ -282,6 +202,114 @@ class DatabaseManager
         }
     }
 
+    func insertFavoriteWord(word: String) 
+    {
+        dbQueue.async {
+            
+            let insertStatementString = "INSERT INTO favorite_word (word) VALUES (?);"
+            
+            var insertStatement: OpaquePointer?
+            if sqlite3_prepare_v2(self.db, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
+                sqlite3_bind_text(insertStatement, 1, (word as NSString).utf8String, -1, nil)
+                
+                if sqlite3_step(insertStatement) == SQLITE_DONE {
+                    print("Favorite word has added successful.")
+                } else {
+                    print("Favorite word hasn't added.")
+                }
+            } else {
+                print("INSERT statement could not be prepared.")
+            }
+            sqlite3_finalize(insertStatement)
+        }
+    }
+    
+    func deleteFavoriteWord(word: String) 
+    {
+        dbQueue.async {
+            
+            let deleteStatementString = "DELETE FROM favorite_word WHERE word = ?;"
+            var deleteStatement: OpaquePointer?
+            
+            if sqlite3_prepare_v2(self.db, deleteStatementString, -1, &deleteStatement, nil) == SQLITE_OK {
+                sqlite3_bind_text(deleteStatement, 1, (word as NSString).utf8String, -1, nil)
+                
+                if sqlite3_step(deleteStatement) == SQLITE_DONE {
+                    print("Favorite word has deleted successful: \(word).")
+                } else {
+                    print("Favorite word hasn't deleted.")
+                }
+            } else {
+                print("DELETE statement could not be prepared.")
+            }
+            
+            sqlite3_finalize(deleteStatement)
+        }
+    }
+    
+    func fetchFavoriteWords(limit: Int? = nil, offset: Int = 0, completion: @escaping ([String])->Void)
+    {
+        dbQueue.async {
+            
+            var queryStatementString: String
+            if limit != nil {
+                queryStatementString = "SELECT word FROM favorite_word ORDER BY id ASC LIMIT ? OFFSET ?;"
+            } else {
+                queryStatementString = "SELECT word FROM favorite_word ORDER BY id ASC;"
+            }
+            
+            var queryStatement: OpaquePointer?
+            
+            var words = [String]()
+            
+            if limit != nil {
+                sqlite3_bind_int(queryStatement, 1, Int32(limit!))
+                sqlite3_bind_int(queryStatement, 2, Int32(offset))
+            }
+            
+            if sqlite3_prepare_v2(self.db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+                while sqlite3_step(queryStatement) == SQLITE_ROW {
+                    if let result = sqlite3_column_text(queryStatement, 0) {
+                        let word = String(describing: String(cString: result))
+                        words.append(word)
+                    }
+                }
+            } else {
+                print("SELECT statement could not be prepared")
+            }
+            
+            sqlite3_finalize(queryStatement)
+            
+            DispatchQueue.main.async {
+                completion(words)
+            }
+        }
+    }
+    
+    func favoriteWordCount(word: String, completion: @escaping (Int)->Void)
+    {
+        dbQueue.async {
+            
+            let queryStatementString = "SELECT COUNT(*) FROM favorite_word WHERE word = ?;"
+            var queryStatement: OpaquePointer?
+            var count = 0
+            
+            if sqlite3_prepare_v2(self.db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+                sqlite3_bind_text(queryStatement, 1, (word as NSString).utf8String, -1, nil)
+                
+                if sqlite3_step(queryStatement) == SQLITE_ROW {
+                    count = Int(sqlite3_column_int(queryStatement, 0))
+                }
+            } else {
+                print("SELECT COUNT statement could not be prepared.")
+            }
+            sqlite3_finalize(queryStatement)
+            
+            DispatchQueue.main.async {
+                completion(count)
+            }
+        }
+    }
     
     private func createWordTable()
     {

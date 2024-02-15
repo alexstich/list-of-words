@@ -11,6 +11,7 @@ import UIKit
 protocol ListWordsDisplayLogic: AnyObject
 {
     func displayFetchedListWords(viewModel: ListWords.FetchListWords.ViewModel)
+    func displayFetchedFavoriteListWords(viewModel: ListWords.FetchFavoriteListWords.ViewModel)
     func displayAddWordResult(viewModel: ListWords.AddWord.ViewModel)
 }
 
@@ -59,6 +60,7 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         setupConf()
         setupViews()
         setupActions()
+        setupObserves()
     }
     
     required init?(coder aDecoder: NSCoder)
@@ -66,11 +68,16 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         super.init(coder: aDecoder)
     }
     
+    deinit{
+        
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-        fetchWords()
+        fetchWords(mode: .fetch_next)
+        fetchFavoriteWords()
     }
     
     // MARK: Setup
@@ -124,13 +131,20 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         ])
     }
     
+    private func setupObserves()
+    {
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTable), name: .addedWordToListWordsNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTable), name: .deletedWordFromListWordsNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTable), name: .addedWordToFavoriteListWordsNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTable), name: .deletedWordFromFavoriteListWordsNotification, object: nil)
+    }
+    
     @objc private func refreshTable()
     {
-        fetchWords()
+        fetchWords(mode: .update_current)
+        fetchFavoriteWords()
         
         self.refreshControl.endRefreshing()
-        
-        ToastMessage.show(message: "Это тестовое сообщение", controller: self)
     }
     
     // MARK: Routing
@@ -161,11 +175,8 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         }, for: .touchUpInside)
     }
     
-    // MARK: Do something
     
-    //@IBOutlet weak var nameTextField: UITextField!
-    
-    // MARK: - Fetch words
+    // MARK: - Display logic
     
     var displayedWords: ListWords.Words = []
     var favoriteWords: ListWords.Words = []
@@ -173,6 +184,12 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
     func displayFetchedListWords(viewModel: ListWords.FetchListWords.ViewModel)
     {
         displayedWords = viewModel.displayedWords
+        tableView.reloadData()
+    }
+    
+    func displayFetchedFavoriteListWords(viewModel: ListWords.FetchFavoriteListWords.ViewModel)
+    {
+        favoriteWords = viewModel.displayedFavoriteWords
         tableView.reloadData()
     }
     
@@ -214,10 +231,16 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
 // MARK: Ineractor actions
 extension ListWordsViewController
 {
-    func fetchWords()
+    func fetchWords(mode: ListWordsInteractor.FetchingMode)
     {
-        let request = ListWords.FetchListWords.Request()
+        let request = ListWords.FetchListWords.Request(mode: mode)
         interactor?.fetchListWords(request: request)
+    }
+    
+    func fetchFavoriteWords()
+    {
+        let request = ListWords.FetchFavoriteListWords.Request()
+        interactor?.fetchFavoriteListWords(request: request)
     }
     
     func selectWord(indexPath: IndexPath)
@@ -233,6 +256,38 @@ extension ListWordsViewController
 // MARK: Table data source delegate methods
 extension ListWordsViewController: UITableViewDataSource
 {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+    {
+        let headerView = UIView()
+        headerView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        
+        let label = UILabel()
+        label.textAlignment = .left
+        label.font.withSize(14.0)
+        
+        if section == 0 {
+            label.text = "Favorites"
+        } else {
+            label.text = "Pool"
+        }
+        
+        headerView.addSubview(label)
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            label.centerYAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.centerYAnchor),
+            label.leftAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.leftAnchor, constant: 10),
+        ])
+        
+        return headerView
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat 
+    {
+        return 45
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
         if section == 0 {
@@ -297,13 +352,14 @@ extension ListWordsViewController: UITableViewDelegate
         
         if !isLoadingData && (offsetY > (contentHeight - scrollViewHeight)) {
             
-            // this prevent multiple fetching because scrollViewDidScroll invoke a lot of times
+            // this prevent multiple fetching because scrollViewDidScroll is invoked a lot of times
             isLoadingData = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
                 self?.isLoadingData = false
             }
 
-            fetchWords()
+            fetchWords(mode: .fetch_next)
+            fetchFavoriteWords()
         }
     }
 }

@@ -11,6 +11,7 @@ import UIKit
 protocol ListWordsBusinessLogic
 {
     func fetchListWords(request: ListWords.FetchListWords.Request)
+    func fetchFavoriteListWords(request: ListWords.FetchFavoriteListWords.Request)
     func selectWord(request: ListWords.SelectWord.Request)
     func addWord(request: ListWords.AddWord.Request)
 }
@@ -36,6 +37,20 @@ final class ListWordsInteractor: ListWordsBusinessLogic, ListWordsDataStore
     func fetchListWords(request: ListWords.FetchListWords.Request)
     {
         fetchListWords(mode: .fetch_next)
+    }
+    
+    func fetchFavoriteListWords(request: ListWords.FetchFavoriteListWords.Request)
+    {
+        worker = ListWordsWorker()
+        
+        worker?.fetchFavoriteListWords { [weak self] listWords in
+            
+            guard let self = self else { return }
+            self.favoriteWords = listWords
+
+            let response = ListWords.FetchFavoriteListWords.Response(favoriteListWords: self.favoriteWords)
+            self.presenter?.presentFetchedFavoriteListWords(response: response)
+        }
     }
     
     func selectWord(request: ListWords.SelectWord.Request) 

@@ -12,9 +12,12 @@ protocol WordDetailsBusinessLogic
 {
     func fetchWord(request: WordDetails.FetchWord.Request)
     func fetchNumberOccurrance(request: WordDetails.FetchNumberOccurrance.Request)
+    func fetchFavoriteOccurrance(request: WordDetails.FetchFavoriteOccurrance.Request)
+    
+    func toggleFavoriteStatus(request: WordDetails.ToggleFavoriteStatus.Request)
     func addWord(request: WordDetails.AddWord.Request)
     func deleteWord(request: WordDetails.DeleteWord.Request)
-    func markFavoriteWord(request: WordDetails.MakeFavoriteWord.Request)
+
 }
 
 protocol WordDetailsDataStore
@@ -26,17 +29,22 @@ class WordDetailsInteractor: WordDetailsBusinessLogic, WordDetailsDataStore
 {
     var word: String?
     var number: Int?
+    var isFavorite: Bool = false
     
     var presenter: WordDetailsPresentationLogic?
-    var worker: WordDetailsWorker?
+    var worker: WordDetailsWorker? = WordDetailsWorker()
+    
+    func fetchWord(request: WordDetails.FetchWord.Request)
+    {
+        let response = WordDetails.FetchWord.Response(word: word ?? "")
+        presenter?.presentWord(response: response)
+    }
     
     func fetchNumberOccurrance(request: WordDetails.FetchNumberOccurrance.Request)
     {
-        worker = WordDetailsWorker()
-        
         if let word = word {
             
-            worker?.fetchNumberOccurrance(
+            worker?.fetchWordNumberOccurrance(
                 word: word,
                 completion: { [weak self] number in
                     
@@ -49,36 +57,64 @@ class WordDetailsInteractor: WordDetailsBusinessLogic, WordDetailsDataStore
         }
     }
     
-    func fetchWord(request: WordDetails.FetchWord.Request)
+    func fetchFavoriteOccurrance(request: WordDetails.FetchFavoriteOccurrance.Request)
     {
-        var response = WordDetails.FetchWord.Response(word: word ?? "")
-        presenter?.presentWord(response: response)
+        if let word = word {
+            
+            worker?.fetchFavoriteWordOccurrance(
+                word: word,
+                completion: { [weak self] isFavorite in
+                    
+                    self?.isFavorite = isFavorite
+                    
+                    let response = WordDetails.FetchFavoriteOccurrance.Response(isFavorite: isFavorite)
+                    self?.presenter?.presentIsFavoriteWord(response: response)
+                }
+            )
+        }
     }
     
     func addWord(request: WordDetails.AddWord.Request)
     {
-        //        worker = WordDetailsWorker()
-        //        worker?.doSomeWork()
-        //
-        //        let response = WordDetails.AddWord.Response()
-        //        presenter?.presentSomething(response: response)
+        if word != nil {
+            worker?.addToFavoriteWords(word: word!)
+            let response = WordDetails.AddWord.Response(success: true, word: word!)
+            presenter?.presentAddWordResult(response: response)
+        }
+        
+        NotificationCenter.default.post(name: .addedWordToListWordsNotification, object: nil, userInfo: nil)
     }
     
     func deleteWord(request: WordDetails.DeleteWord.Request)
     {
-        //        worker = WordDetailsWorker()
-        //        worker?.doSomeWork()
-        //
-        //        let response = WordDetails.AddWord.Response()
-        //        presenter?.presentSomething(response: response)
+        if word != nil {
+            worker?.deleteFromListWords(word: word!)
+            let response = WordDetails.DeleteWord.Response(success: true, word: word!)
+            presenter?.presentDeleteWordResult(response: response)
+        }
+        
+        NotificationCenter.default.post(name: .deletedWordFromListWordsNotification, object: nil, userInfo: nil)
     }
     
-    func markFavoriteWord(request: WordDetails.MakeFavoriteWord.Request)
+    func toggleFavoriteStatus(request: WordDetails.ToggleFavoriteStatus.Request)
     {
-        //        worker = WordDetailsWorker()
-        //        worker?.doSomeWork()
-        //
-        //        let response = WordDetails.AddWord.Response()
-        //        presenter?.presentSomething(response: response)
+        var response: WordDetails.ToggleFavoriteStatus.Response
+        
+        if word != nil && isFavorite {
+            worker?.deleteFromFavoriteWords(word: word!)
+            response = WordDetails.ToggleFavoriteStatus.Response(isFavorite: false)
+            
+            NotificationCenter.default.post(name: .deletedWordFromFavoriteListWordsNotification, object: nil, userInfo: nil)
+            
+        } else {
+            worker?.addToFavoriteWords(word: word!)
+            response = WordDetails.ToggleFavoriteStatus.Response(isFavorite: true)
+            
+            NotificationCenter.default.post(name: .addedWordToFavoriteListWordsNotification, object: nil, userInfo: nil)
+        }
+        
+        self.isFavorite = !self.isFavorite
+        
+        presenter?.presentToggleFavoriteStatus(response: response)
     }
 }

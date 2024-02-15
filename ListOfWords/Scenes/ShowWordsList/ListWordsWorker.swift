@@ -17,6 +17,13 @@ final class ListWordsWorker
         }
     }
     
+    func fetchFavoriteListWords(completion: @escaping ([String])->Void)
+    {
+        DatabaseManager.shared.fetchFavoriteWords { words in
+            completion(words)
+        }
+    }
+    
     func addToListWords(word: String)
     {
         DatabaseManager.shared.insertWord(word: word)

@@ -31,6 +31,7 @@
 		FA95DA992B79366E006BC414 /* WordDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95DA932B79366E006BC414 /* WordDetailsInteractor.swift */; };
 		FA95DA9B2B7938A3006BC414 /* ToastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95DA9A2B7938A3006BC414 /* ToastMessage.swift */; };
 		FAA3D0F12B7D4173003D06B7 /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA3D0F02B7D4173003D06B7 /* ResponseError.swift */; };
+		FAE8812E2B7E94A9006F0962 /* ExtNotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE8812D2B7E94A9006F0962 /* ExtNotificationName.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		FA95DA932B79366E006BC414 /* WordDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailsInteractor.swift; sourceTree = "<group>"; };
 		FA95DA9A2B7938A3006BC414 /* ToastMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
 		FAA3D0F02B7D4173003D06B7 /* ResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
+		FAE8812D2B7E94A9006F0962 /* ExtNotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtNotificationName.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +199,7 @@
 				FA95DA9A2B7938A3006BC414 /* ToastMessage.swift */,
 				FA33EEBD2B7A926F00E5C3BF /* DatabaseManager.swift */,
 				FAA3D0F02B7D4173003D06B7 /* ResponseError.swift */,
+				FAE8812D2B7E94A9006F0962 /* ExtNotificationName.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -362,6 +365,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA95DA972B79366E006BC414 /* WordDetailsModels.swift in Sources */,
+				FAE8812E2B7E94A9006F0962 /* ExtNotificationName.swift in Sources */,
 				FA10317C2B7773A000FFBDC3 /* AppDelegate.swift in Sources */,
 				FA95DA982B79366E006BC414 /* WordDetailsViewController.swift in Sources */,
 				FA95DA992B79366E006BC414 /* WordDetailsInteractor.swift in Sources */,

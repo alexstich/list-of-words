@@ -17,7 +17,10 @@ enum ListWords
     
     enum FetchListWords
     {
-        struct Request {}
+        struct Request 
+        {
+            let mode: ListWordsInteractor.FetchingMode
+        }
         
         struct Response
         {
@@ -27,6 +30,23 @@ enum ListWords
         struct ViewModel
         {
             var displayedWords: Words
+        }
+    }
+    
+    enum FetchFavoriteListWords
+    {
+        struct Request 
+        {
+        }
+        
+        struct Response
+        {
+            var favoriteListWords: Words
+        }
+        
+        struct ViewModel
+        {
+            var displayedFavoriteWords: Words
         }
     }
     

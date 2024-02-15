@@ -10,8 +10,12 @@ import UIKit
 
 protocol WordDetailsDisplayLogic: AnyObject
 {
-    func displayNumberOccurrance(viewModel: WordDetails.FetchNumberOccurrance.ViewModel)
     func displayWord(viewModel: WordDetails.FetchWord.ViewModel)
+    func displayNumberOccurrance(viewModel: WordDetails.FetchNumberOccurrance.ViewModel)
+    func displayFavoriteStatus(viewModel: WordDetails.FetchFavoriteOccurrance.ViewModel)
+    func displayToggleFavoriteStatus(viewModel: WordDetails.ToggleFavoriteStatus.ViewModel)
+    func displayAddWordResult(viewModel: WordDetails.AddWord.ViewModel)
+    func displayDeleteWordResult(viewModel: WordDetails.DeleteWord.ViewModel)
 }
 
 class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
@@ -23,7 +27,7 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         let lbl = UILabel()
         lbl.textColor = UIColor.black
         lbl.textAlignment = .center;
-        lbl.font.withSize(16.0)
+        lbl.font.withSize(18.0)
         lbl.numberOfLines = 0
         return lbl
     }()
@@ -75,7 +79,7 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
     
     private let markFavoriteButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("Make favorite", for: .normal)
+        btn.setTitle("", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.tintColor = .black
         btn.backgroundColor = .white
@@ -86,6 +90,7 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         return btn
     }()
     
+    
     // MARK: Object lifecycle
     
     init()
@@ -94,12 +99,15 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         
         setupConfig()
         setupViews()
+        setupActions()
+        setupObserves()
     }
     
     required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
     }
+    
     
     // MARK: View lifecycle
 
@@ -109,7 +117,9 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         
         fetchWord()
         fetchNumberOccurrance()
+        fetchFavoriteOccurrance()
     }
+    
     
     // MARK: Setup
     
@@ -160,14 +170,14 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
             wordOccurranceNumberTitleLbl.topAnchor.constraint(equalTo: self.wordLbl.bottomAnchor, constant: 20),
             wordOccurranceNumberTitleLbl.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
             wordOccurranceNumberTitleLbl.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
-            wordOccurranceNumberTitleLbl.heightAnchor.constraint(equalToConstant: CGFloat(50)),
+            wordOccurranceNumberTitleLbl.heightAnchor.constraint(equalToConstant: CGFloat(40)),
         ])
         
         NSLayoutConstraint.activate([
-            wordOccurranceNumberLbl.topAnchor.constraint(equalTo: self.wordOccurranceNumberTitleLbl.bottomAnchor, constant: 20),
+            wordOccurranceNumberLbl.topAnchor.constraint(equalTo: self.wordOccurranceNumberTitleLbl.bottomAnchor, constant: 10),
             wordOccurranceNumberLbl.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
             wordOccurranceNumberLbl.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
-            wordOccurranceNumberLbl.heightAnchor.constraint(equalToConstant: CGFloat(50)),
+            wordOccurranceNumberLbl.heightAnchor.constraint(equalToConstant: CGFloat(40)),
         ])
         
         NSLayoutConstraint.activate([
@@ -204,18 +214,57 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         }
     }
     
-    // MARK: Interactor invoke
+    // MARK: Setup notification observers
     
-    private func fetchNumberOccurrance()
+    private func setupObserves()
     {
-        let request = WordDetails.FetchNumberOccurrance.Request()
-        interactor?.fetchNumberOccurrance(request: request)
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchNumberOccurrance), name: .addedWordToListWordsNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchNumberOccurrance), name: .deletedWordFromListWordsNotification, object: nil)
     }
+    
+    
+    // MARK: Setup actions
+    
+    private func setupActions()
+    {
+        addButton.addAction(UIAction { [weak self] _ in
+            self?.addWord()
+        }, for: .touchUpInside)
+        
+        deleteButton.addAction(UIAction { [weak self] _ in
+            self?.deleteWord()
+        }, for: .touchUpInside)
+        
+        markFavoriteButton.addAction(UIAction { [weak self] _ in
+            self?.toogleFavoriteStatus()
+        }, for: .touchUpInside)
+    }
+    
+    
+    // MARK: Interactor invokes
     
     private func fetchWord()
     {
         let request = WordDetails.FetchWord.Request()
         interactor?.fetchWord(request: request)
+    }
+    
+    @objc private func fetchNumberOccurrance()
+    {
+        let request = WordDetails.FetchNumberOccurrance.Request()
+        interactor?.fetchNumberOccurrance(request: request)
+    }
+    
+    private func fetchFavoriteOccurrance()
+    {
+        let request = WordDetails.FetchFavoriteOccurrance.Request()
+        interactor?.fetchFavoriteOccurrance(request: request)
+    }
+    
+    private func toogleFavoriteStatus()
+    {
+        let request = WordDetails.ToggleFavoriteStatus.Request()
+        interactor?.toggleFavoriteStatus(request: request)
     }
     
     private func addWord()
@@ -230,12 +279,6 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
         interactor?.deleteWord(request: request)
     }
     
-    private func makeFavoriteWord()
-    {
-        let request = WordDetails.MakeFavoriteWord.Request()
-        interactor?.markFavoriteWord(request: request)
-    }
-    
     
     // MARK: Display Logic
     
@@ -247,5 +290,43 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
     func displayWord(viewModel: WordDetails.FetchWord.ViewModel)
     {
         wordLbl.text = "\(viewModel.word)"
+    }
+    
+    func displayFavoriteStatus(viewModel: WordDetails.FetchFavoriteOccurrance.ViewModel) 
+    {
+        if viewModel.isFavorite {
+            markFavoriteButton.setTitle("Mark as unfavourite", for: .normal)
+        } else {
+            markFavoriteButton.setTitle("Mark as favourite", for: .normal)
+        }
+    }
+    
+    func displayToggleFavoriteStatus(viewModel: WordDetails.ToggleFavoriteStatus.ViewModel)
+    {
+        if viewModel.isFavorite {
+            markFavoriteButton.setTitle("Mark as unfavourite", for: .normal)
+            ToastMessage.show(message: "Word have been added to favorite", purpose: .info, controller: self)
+        } else {
+            markFavoriteButton.setTitle("Mark as favourite", for: .normal)
+            ToastMessage.show(message: "Word have been removed from favorite", purpose: .info, controller: self)
+        }
+    }
+    
+    func displayAddWordResult(viewModel: WordDetails.AddWord.ViewModel)
+    {
+        if viewModel.result == .success {
+            ToastMessage.show(message: "Word have been added", purpose: .info, controller: self)
+        } else {
+            ToastMessage.show(message: "Word have not been added", purpose: .alert, controller: self)
+        }
+    }
+    
+    func displayDeleteWordResult(viewModel: WordDetails.DeleteWord.ViewModel)
+    {
+        if viewModel.result == .success {
+            ToastMessage.show(message: "Word have been deleted", purpose: .info, controller: self)
+        } else {
+            ToastMessage.show(message: "Word have not been deleted", purpose: .alert, controller: self)
+        }
     }
 }
