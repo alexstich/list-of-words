@@ -10,9 +10,6 @@ import UIKit
 
 enum WordDetails
 {
-    typealias Word = String
-    typealias Words = [String]
-    
     // MARK: Use cases
     
     enum FetchWord

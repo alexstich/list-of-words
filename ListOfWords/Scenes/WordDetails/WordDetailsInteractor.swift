@@ -77,7 +77,7 @@ class WordDetailsInteractor: WordDetailsBusinessLogic, WordDetailsDataStore
     func addWord(request: WordDetails.AddWord.Request)
     {
         if word != nil {
-            worker?.addToFavoriteWords(word: word!)
+            worker?.addToListWords(word: word!)
             let response = WordDetails.AddWord.Response(success: true, word: word!)
             presenter?.presentAddWordResult(response: response)
         }

@@ -10,12 +10,10 @@ import UIKit
 
 enum ListWords
 {
-    typealias Word = String
-    typealias Words = [String]
-    
+
     // MARK: Use cases
     
-    enum FetchListWords
+    enum FetchAllWords
     {
         struct Request 
         {
@@ -25,27 +23,12 @@ enum ListWords
         struct Response
         {
             var listWords: Words
-        }
-        
-        struct ViewModel
-        {
-            var displayedWords: Words
-        }
-    }
-    
-    enum FetchFavoriteListWords
-    {
-        struct Request 
-        {
-        }
-        
-        struct Response
-        {
             var favoriteListWords: Words
         }
         
         struct ViewModel
         {
+            var displayedWords: Words
             var displayedFavoriteWords: Words
         }
     }

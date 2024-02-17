@@ -10,8 +10,7 @@ import UIKit
 
 protocol ListWordsPresentationLogic
 {
-    func presentFetchedListWords(response: ListWords.FetchListWords.Response)
-    func presentFetchedFavoriteListWords(response: ListWords.FetchFavoriteListWords.Response)
+    func presentFetchedAllWords(response: ListWords.FetchAllWords.Response)
     func presentAddWordResult(response: ListWords.AddWord.Response)
 }
 
@@ -19,16 +18,10 @@ final class ListWordsPresenter: ListWordsPresentationLogic
 {
     weak var viewController: ListWordsDisplayLogic?
     
-    func presentFetchedListWords(response: ListWords.FetchListWords.Response)
+    func presentFetchedAllWords(response: ListWords.FetchAllWords.Response)
     {
-        let viewModel = ListWords.FetchListWords.ViewModel(displayedWords: response.listWords)
-        viewController?.displayFetchedListWords(viewModel: viewModel)
-    }
-    
-    func presentFetchedFavoriteListWords(response: ListWords.FetchFavoriteListWords.Response)
-    {
-        let viewModel = ListWords.FetchFavoriteListWords.ViewModel(displayedFavoriteWords: response.favoriteListWords)
-        viewController?.displayFetchedFavoriteListWords(viewModel: viewModel)
+        let viewModel = ListWords.FetchAllWords.ViewModel(displayedWords: response.listWords, displayedFavoriteWords: response.favoriteListWords)
+        viewController?.displayFetchedAllWords(viewModel: viewModel)
     }
     
     func presentAddWordResult(response: ListWords.AddWord.Response)

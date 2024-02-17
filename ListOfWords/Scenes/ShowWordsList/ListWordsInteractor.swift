@@ -10,15 +10,14 @@ import UIKit
 
 protocol ListWordsBusinessLogic
 {
-    func fetchListWords(request: ListWords.FetchListWords.Request)
-    func fetchFavoriteListWords(request: ListWords.FetchFavoriteListWords.Request)
+    func fetchAllWords(request: ListWords.FetchAllWords.Request)
     func selectWord(request: ListWords.SelectWord.Request)
     func addWord(request: ListWords.AddWord.Request)
 }
 
 protocol ListWordsDataStore
 {
-    var selectedWord: ListWords.Word? { get set }
+    var selectedWord: Word? { get set }
 }
 
 final class ListWordsInteractor: ListWordsBusinessLogic, ListWordsDataStore
@@ -26,31 +25,17 @@ final class ListWordsInteractor: ListWordsBusinessLogic, ListWordsDataStore
     var presenter: ListWordsPresentationLogic?
     var worker: ListWordsWorker?
     
-    var fullListWords: ListWords.Words = []
-    var favoriteWords: ListWords.Words = []
-    var selectedWord: ListWords.Word? = nil
+    var fullListWords: Words = []
+    var favoriteWords: FavoriteWords = []
+    var selectedWord: Word? = nil
 
     enum FetchingMode {
         case update_current, fetch_next
     }
     
-    func fetchListWords(request: ListWords.FetchListWords.Request)
+    func fetchAllWords(request: ListWords.FetchAllWords.Request)
     {
-        fetchListWords(mode: .fetch_next)
-    }
-    
-    func fetchFavoriteListWords(request: ListWords.FetchFavoriteListWords.Request)
-    {
-        worker = ListWordsWorker()
-        
-        worker?.fetchFavoriteListWords { [weak self] listWords in
-            
-            guard let self = self else { return }
-            self.favoriteWords = listWords
-
-            let response = ListWords.FetchFavoriteListWords.Response(favoriteListWords: self.favoriteWords)
-            self.presenter?.presentFetchedFavoriteListWords(response: response)
-        }
+        fetchAllWords(mode: request.mode)
     }
     
     func selectWord(request: ListWords.SelectWord.Request) 
@@ -69,14 +54,30 @@ final class ListWordsInteractor: ListWordsBusinessLogic, ListWordsDataStore
     {
         if request.word != nil {
             worker?.addToListWords(word: request.word!)
-            fetchListWords(mode: .update_current)
+            fetchAllWords(mode: .update_current)
             
             let response = ListWords.AddWord.Response(success: true, word: request.word!)
             presenter?.presentAddWordResult(response: response)
         }
     }
     
-    private func fetchListWords(mode: FetchingMode)
+    private func fetchAllWords(mode: FetchingMode)
+    {
+        worker = ListWordsWorker()
+
+        worker?.fetchFavoriteListWords { [weak self] favoriteListWords in
+
+            guard let self = self else { return }
+            self.favoriteWords = favoriteListWords
+            
+            self.fetchListWords(mode: mode, completion: { [weak self, favoriteListWords] listWords in
+                let response = ListWords.FetchAllWords.Response(listWords: listWords, favoriteListWords: favoriteListWords)
+                self?.presenter?.presentFetchedAllWords(response: response)
+            })
+        }
+    }
+    
+    private func fetchListWords(mode: FetchingMode, completion: @escaping (Words)->Void)
     {
         worker = ListWordsWorker()
         
@@ -98,8 +99,7 @@ final class ListWordsInteractor: ListWordsBusinessLogic, ListWordsDataStore
                 self.fullListWords = self.fullListWords + listWords
             }
             
-            let response = ListWords.FetchListWords.Response(listWords: self.fullListWords)
-            self.presenter?.presentFetchedListWords(response: response)
+            completion(self.fullListWords)
         }
     }
 }

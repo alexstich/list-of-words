@@ -10,8 +10,7 @@ import UIKit
 
 protocol ListWordsDisplayLogic: AnyObject
 {
-    func displayFetchedListWords(viewModel: ListWords.FetchListWords.ViewModel)
-    func displayFetchedFavoriteListWords(viewModel: ListWords.FetchFavoriteListWords.ViewModel)
+    func displayFetchedAllWords(viewModel: ListWords.FetchAllWords.ViewModel)
     func displayAddWordResult(viewModel: ListWords.AddWord.ViewModel)
 }
 
@@ -76,8 +75,7 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
     {
         super.viewDidLoad()
         
-        fetchWords(mode: .fetch_next)
-        fetchFavoriteWords()
+        fetchAllWords(mode: .fetch_next)
     }
     
     // MARK: Setup
@@ -141,8 +139,7 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
     
     @objc private func refreshTable()
     {
-        fetchWords(mode: .update_current)
-        fetchFavoriteWords()
+        fetchAllWords(mode: .update_current)
         
         self.refreshControl.endRefreshing()
     }
@@ -178,17 +175,12 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
     
     // MARK: - Display logic
     
-    var displayedWords: ListWords.Words = []
-    var favoriteWords: ListWords.Words = []
+    var displayedWords: Words = []
+    var favoriteWords: FavoriteWords = []
     
-    func displayFetchedListWords(viewModel: ListWords.FetchListWords.ViewModel)
+    func displayFetchedAllWords(viewModel: ListWords.FetchAllWords.ViewModel)
     {
         displayedWords = viewModel.displayedWords
-        tableView.reloadData()
-    }
-    
-    func displayFetchedFavoriteListWords(viewModel: ListWords.FetchFavoriteListWords.ViewModel)
-    {
         favoriteWords = viewModel.displayedFavoriteWords
         tableView.reloadData()
     }
@@ -196,9 +188,9 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
     func displayAddWordResult(viewModel: ListWords.AddWord.ViewModel)
     {
         if viewModel.result == .success {
-            ToastMessage.show(message: "Word have been added", purpose: .info, controller: self)
+            MessageManager.shared.showAlert(message: ("Word have been added", .info), from: self)
         } else {
-            ToastMessage.show(message: "Word have not been added", purpose: .alert, controller: self)
+            MessageManager.shared.showAlert(message: ("Word have not been added", .alert), from: self)
         }
     }
     
@@ -231,16 +223,10 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
 // MARK: Ineractor actions
 extension ListWordsViewController
 {
-    func fetchWords(mode: ListWordsInteractor.FetchingMode)
+    func fetchAllWords(mode: ListWordsInteractor.FetchingMode)
     {
-        let request = ListWords.FetchListWords.Request(mode: mode)
-        interactor?.fetchListWords(request: request)
-    }
-    
-    func fetchFavoriteWords()
-    {
-        let request = ListWords.FetchFavoriteListWords.Request()
-        interactor?.fetchFavoriteListWords(request: request)
+        let request = ListWords.FetchAllWords.Request(mode: mode)
+        interactor?.fetchAllWords(request: request)
     }
     
     func selectWord(indexPath: IndexPath)
@@ -259,15 +245,17 @@ extension ListWordsViewController: UITableViewDataSource
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
         let headerView = UIView()
-        headerView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        
         
         let label = UILabel()
         label.textAlignment = .left
         label.font.withSize(14.0)
         
         if section == 0 {
+            headerView.backgroundColor = UIColor.orange.withAlphaComponent(0.7)
             label.text = "Favorites"
         } else {
+            headerView.backgroundColor = UIColor.blue.withAlphaComponent(0.7)
             label.text = "Pool"
         }
         
@@ -358,8 +346,7 @@ extension ListWordsViewController: UITableViewDelegate
                 self?.isLoadingData = false
             }
 
-            fetchWords(mode: .fetch_next)
-            fetchFavoriteWords()
+            fetchAllWords(mode: .fetch_next)
         }
     }
 }

@@ -24,9 +24,14 @@ class WordDetailsWorker
         }
     }
     
-    func addToFavoriteWords(word: String)
+    func addToListWords(word: String)
     {
         DatabaseManager.shared.insertWord(word: word)
+    }
+    
+    func addToFavoriteWords(word: String)
+    {
+        DatabaseManager.shared.insertFavoriteWord(word: word)
     }
     
     func deleteFromListWords(word: String)

@@ -27,5 +27,21 @@
       <ContextState
          contextName = "WordDetailsPresenter.presentWord(response:):WordDetailsPresenter.swift">
       </ContextState>
+      <ContextState
+         contextName = "ListWordsViewController.displayFetchedFavoriteListWords(viewModel:):ListWordsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "favoriteWords">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ListWordsViewController.displayFetchedListWords(viewModel:):ListWordsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "displayedWords">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>

@@ -134,15 +134,23 @@ class DatabaseManager
         }
     }
     
-    func fetchWords(excludingWords excludedWords: [String], limit: Int = 100, offset: Int = 0, completion: @escaping ([String])->Void)
+    func fetchWords(excludingWords excludedWords: [String], distinct: Bool = true, limit: Int = 100, offset: Int = 0, completion: @escaping ([String])->Void)
     {
         dbQueue.async {
             
             let excludedWordsPlaceholder = excludedWords.map{ _ in "?" }.joined(separator: ",")
             
-            let queryStatementString = """
-        SELECT * FROM word WHERE word NOT IN (\(excludedWordsPlaceholder)) ORDER BY id ASC LIMIT ? OFFSET ?;
+            var queryStatementString = ""
+            
+            if distinct {
+                queryStatementString = """
+        SELECT DISTINCT(word) FROM word WHERE word NOT IN (\(excludedWordsPlaceholder)) ORDER BY id ASC LIMIT ? OFFSET ?;
         """
+            } else {
+                queryStatementString = """
+        SELECT word FROM word WHERE word NOT IN (\(excludedWordsPlaceholder)) ORDER BY id ASC LIMIT ? OFFSET ?;
+        """
+            }
             var queryStatement: OpaquePointer?
             
             var words = [String]()
@@ -157,7 +165,7 @@ class DatabaseManager
                 sqlite3_bind_int(queryStatement, Int32(excludedWords.count + 2), Int32(offset))
                 
                 while sqlite3_step(queryStatement) == SQLITE_ROW {
-                    guard let queryResultCol1 = sqlite3_column_text(queryStatement, 1) else {
+                    guard let queryResultCol1 = sqlite3_column_text(queryStatement, 0) else {
                         print("Error raw reading")
                         continue
                     }
