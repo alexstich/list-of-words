@@ -7,9 +7,9 @@
 
 import UIKit
 
-class MessageManager
+class MessageProvider
 {
-    static let shared = MessageManager()
+    static let shared = MessageProvider()
     
     var messageShowingInterval: Double = 1
     

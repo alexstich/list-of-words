@@ -12,6 +12,7 @@ protocol ListWordsPresentationLogic
 {
     func presentFetchedAllWords(response: ListWords.FetchAllWords.Response)
     func presentAddWordResult(response: ListWords.AddWord.Response)
+    func presentFileMovedResult(response: ListWords.PickFile.Response)
 }
 
 final class ListWordsPresenter: ListWordsPresentationLogic
@@ -20,13 +21,36 @@ final class ListWordsPresenter: ListWordsPresentationLogic
     
     func presentFetchedAllWords(response: ListWords.FetchAllWords.Response)
     {
-        let viewModel = ListWords.FetchAllWords.ViewModel(displayedWords: response.listWords, displayedFavoriteWords: response.favoriteListWords)
-        viewController?.displayFetchedAllWords(viewModel: viewModel)
+        switch response.result {
+        case .success(let lists):
+            let viewModel = ListWords.FetchAllWords.ViewModel(listWords: lists.listWords, favoriteListWords: lists.favoriteListWords)
+            viewController?.displayFetchedAllWords(viewModel: viewModel)
+        case .failure(let error):
+            viewController?.displayError(errorMessage: error.localizedDescription)
+        }
     }
     
     func presentAddWordResult(response: ListWords.AddWord.Response)
     {
-        let viewModel = ListWords.AddWord.ViewModel(result: response.success ? .success : .failure)
-        viewController?.displayAddWordResult(viewModel: viewModel)
+        switch response.result {
+        case .success(let word):
+            if word != nil {
+                let viewModel = ListWords.AddWord.ViewModel(word: word!)
+                viewController?.displayAddWordResult(viewModel: viewModel)
+            }
+        case .failure(let error):
+            viewController?.displayError(errorMessage: error.localizedDescription)
+        }
+    }
+
+    func presentFileMovedResult(response: ListWords.PickFile.Response) 
+    {
+        switch response.result {
+        case .success(_):
+            let viewModel = ListWords.PickFile.ViewModel()
+            viewController?.displayFileMovedResult(viewModel: viewModel)
+        case .failure(let error):
+            viewController?.displayError(errorMessage: error.localizedDescription)
+        }
     }
 }

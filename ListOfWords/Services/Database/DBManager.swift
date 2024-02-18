@@ -10,12 +10,13 @@
 import Foundation
 import SQLite3
 
-class DatabaseManager 
+class DBManager 
 {
-    static let shared = DatabaseManager()
+    static let shared = DBManager()
+    
     private var db: OpaquePointer?
     
-    private let dbQueue = DispatchQueue(label: "DatabaseQueue")
+    private let queue = DispatchQueue(label: "DatabaseQueue")
     
     private init() 
     {
@@ -32,6 +33,15 @@ class DatabaseManager
         }
     }
     
+    func refreshDbTables(completion: @escaping ()->Void)
+    {
+        dropTables()
+        createFavoriteWordTable()
+        createWordTable() {
+            completion()
+        }
+    }
+    
     private func createTables() 
     {
         createWordTable()
@@ -43,11 +53,20 @@ class DatabaseManager
         return self.isWordTableNotEmpty()
     }
     
-    func fillWordTableFrom(array: [String])
+    func fillWordTableFrom(array: [String], completion: (()->Void)?)
     {
-        dbQueue.async {
-            for value in array {
-                self.insertWord(word: value)
+        queue.async {
+            
+            let batchSize = 1000
+            
+            for start in stride(from: 0, to: array.count, by: batchSize) {
+                let end = min(start + batchSize, array.count)
+                let batch = Array(array[start..<end])
+                self.insertWords(words: batch)
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                completion?()
             }
         }
     }
@@ -71,9 +90,33 @@ class DatabaseManager
         return isNotEmpty
     }
     
-    func insertWord(word: String) 
+    func allWordCount(completion: @escaping (Int)->Void)
     {
-        dbQueue.async {
+        queue.async {
+            
+            let queryStatementString = "SELECT COUNT(*) FROM word;"
+            var queryStatement: OpaquePointer?
+            var count = 0
+            
+            if sqlite3_prepare_v2(self.db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+                
+                if sqlite3_step(queryStatement) == SQLITE_ROW {
+                    count = Int(sqlite3_column_int(queryStatement, 0))
+                }
+            } else {
+                print("SELECT COUNT statement could not be prepared.")
+            }
+            sqlite3_finalize(queryStatement)
+            
+            DispatchQueue.main.async {
+                completion(count)
+            }
+        }
+    }
+    
+    func insertWord(word: String, completion: @escaping (Int)->Void)
+    {
+        queue.async {
             let insertStatementString = "INSERT INTO word (word) VALUES (?);"
             
             var insertStatement: OpaquePointer?
@@ -89,12 +132,101 @@ class DatabaseManager
                 print("INSERT statement could not be prepared.")
             }
             sqlite3_finalize(insertStatement)
+            
+            let queryStatementString = "SELECT COUNT(*) FROM word;"
+            var queryStatement: OpaquePointer?
+            var count = 0
+            
+            if sqlite3_prepare_v2(self.db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+                
+                if sqlite3_step(queryStatement) == SQLITE_ROW {
+                    count = Int(sqlite3_column_int(queryStatement, 0))
+                }
+            } else {
+                print("SELECT COUNT statement could not be prepared.")
+            }
+            sqlite3_finalize(queryStatement)
+            
+            DispatchQueue.main.async {
+                completion(count)
+            }
         }
     }
     
-    func deleteWord(word: String) 
+    func insertWords(words: [String])
     {
-        dbQueue.async {
+        guard words.count > 0 else { return }
+        
+        queue.async {
+            
+            let wordsPlaceholder = words.map{ _ in "(?)" }.joined(separator: ",")
+            
+            let insertStatementString = "INSERT INTO word (word) VALUES \(wordsPlaceholder);"
+            
+            var insertStatement: OpaquePointer?
+            if sqlite3_prepare_v2(self.db, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
+
+                for (index, word) in words.enumerated() {
+                    sqlite3_bind_text(insertStatement, Int32(index + 1), (word as NSString).utf8String, -1, nil)
+                }
+                
+                if sqlite3_step(insertStatement) == SQLITE_DONE {
+                    print("Words has added successful.")
+                } else {
+                    print("Words hasn't added.")
+                }
+            } else {
+                print("INSERT statement could not be prepared.")
+            }
+            sqlite3_finalize(insertStatement)
+        }
+    }
+    
+    func fetchRawNumberOfDeletingWord(word: String, completion: ((Int32?)->Void)?)
+    {
+        queue.async {
+            
+            let queryStatementString = "SELECT id FROM word WHERE word = ? ORDER BY id DESC LIMIT 1;"
+            var queryStatement: OpaquePointer?
+            var wordId: Int32 = -1
+            
+            if sqlite3_prepare_v2(self.db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+                sqlite3_bind_text(queryStatement, 1, (word as NSString).utf8String, -1, nil)
+                
+                if sqlite3_step(queryStatement) == SQLITE_ROW {
+                    wordId = sqlite3_column_int(queryStatement, 0)
+                }
+            } else {
+                print("Error SELECT request")
+            }
+            
+            sqlite3_finalize(queryStatement)
+            
+            let queryNumberStatementString = "SELECT COUNT(id) as raw_number FROM word WHERE id <= ? ORDER BY id ASC;"
+            var queryNumberStatement: OpaquePointer?
+            var rawNumber: Int32? = nil
+            
+            if sqlite3_prepare_v2(self.db, queryNumberStatementString, -1, &queryNumberStatement, nil) == SQLITE_OK {
+                sqlite3_bind_int(queryNumberStatement, 1, wordId)
+                
+                if sqlite3_step(queryNumberStatement) == SQLITE_ROW {
+                    rawNumber = sqlite3_column_int(queryNumberStatement, 0)
+                }
+            } else {
+                print("Error SELECT request")
+            }
+            
+            sqlite3_finalize(queryStatement)
+            
+            DispatchQueue.main.async {
+                completion?(rawNumber)
+            }
+        }
+    }
+    
+    func deleteWord(word: String)
+    {
+        queue.async {
             
             let queryStatementString = "SELECT id FROM word WHERE word = ? ORDER BY id DESC LIMIT 1;"
             var queryStatement: OpaquePointer?
@@ -136,7 +268,7 @@ class DatabaseManager
     
     func fetchWords(excludingWords excludedWords: [String], distinct: Bool = true, limit: Int = 100, offset: Int = 0, completion: @escaping ([String])->Void)
     {
-        dbQueue.async {
+        queue.async {
             
             let excludedWordsPlaceholder = excludedWords.map{ _ in "?" }.joined(separator: ",")
             
@@ -187,7 +319,7 @@ class DatabaseManager
     
     func wordCount(word: String, completion: @escaping (Int)->Void)
     {
-        dbQueue.async {
+        queue.async {
             
             let queryStatementString = "SELECT COUNT(*) FROM word WHERE word = ?;"
             var queryStatement: OpaquePointer?
@@ -212,7 +344,7 @@ class DatabaseManager
 
     func insertFavoriteWord(word: String) 
     {
-        dbQueue.async {
+        queue.async {
             
             let insertStatementString = "INSERT INTO favorite_word (word) VALUES (?);"
             
@@ -234,7 +366,7 @@ class DatabaseManager
     
     func deleteFavoriteWord(word: String) 
     {
-        dbQueue.async {
+        queue.async {
             
             let deleteStatementString = "DELETE FROM favorite_word WHERE word = ?;"
             var deleteStatement: OpaquePointer?
@@ -257,7 +389,7 @@ class DatabaseManager
     
     func fetchFavoriteWords(limit: Int? = nil, offset: Int = 0, completion: @escaping ([String])->Void)
     {
-        dbQueue.async {
+        queue.async {
             
             var queryStatementString: String
             if limit != nil {
@@ -296,7 +428,7 @@ class DatabaseManager
     
     func favoriteWordCount(word: String, completion: @escaping (Int)->Void)
     {
-        dbQueue.async {
+        queue.async {
             
             let queryStatementString = "SELECT COUNT(*) FROM favorite_word WHERE word = ?;"
             var queryStatement: OpaquePointer?
@@ -319,9 +451,35 @@ class DatabaseManager
         }
     }
     
-    private func createWordTable()
+    private func dropTables()
     {
-        dbQueue.async {
+        queue.async {
+            
+            var errMsg: UnsafeMutablePointer<Int8>?
+            
+            let dropWordTableSQL = "DROP TABLE IF EXISTS word;"
+            
+            if sqlite3_exec(self.db, dropWordTableSQL, nil, nil, &errMsg) != SQLITE_OK {
+                let errorMessage = String(cString: errMsg!)
+                print("Drop table error: word - \(errorMessage)")
+            } else {
+                print("Table word successful droped.")
+            }
+            
+            let dropFavoriteTableSQL = "DROP TABLE IF EXISTS favorite_word;"
+            
+            if sqlite3_exec(self.db, dropFavoriteTableSQL, nil, nil, &errMsg) != SQLITE_OK {
+                let errorMessage = String(cString: errMsg!)
+                print("Drop table error: favorite_word - \(errorMessage)")
+            } else {
+                print("Table favorite_word successful droped.")
+            }
+        }
+    }
+    
+    private func createWordTable(completion: (()->Void)? = nil)
+    {
+        queue.async {
             
             let createWordTableCommand = """
         CREATE TABLE IF NOT EXISTS word(
@@ -358,12 +516,16 @@ class DatabaseManager
                 print("CREATE INDEX statement could not be prepared")
             }
             sqlite3_finalize(createIndexStatement)
+            
+            DispatchQueue.main.async {
+                completion?()
+            }
         }
     }
     
     private func createFavoriteWordTable()
     {
-        dbQueue.async {
+        queue.async {
             let createFavoriteWordTableCommand = """
         CREATE TABLE IF NOT EXISTS favorite_word(
             id INTEGER PRIMARY KEY AUTOINCREMENT,

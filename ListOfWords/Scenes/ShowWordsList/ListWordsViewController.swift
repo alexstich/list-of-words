@@ -12,6 +12,8 @@ protocol ListWordsDisplayLogic: AnyObject
 {
     func displayFetchedAllWords(viewModel: ListWords.FetchAllWords.ViewModel)
     func displayAddWordResult(viewModel: ListWords.AddWord.ViewModel)
+    func displayFileMovedResult(viewModel: ListWords.PickFile.ViewModel)
+    func displayError(errorMessage: String)
 }
 
 final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
@@ -35,7 +37,7 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         return refreshControl
     }()
     
-    private let addButton: UIButton = {
+    private let addWordButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("Add word", for: .normal)
         btn.setTitleColor(.black, for: .normal)
@@ -48,7 +50,34 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         return btn
     }()
     
-    var isLoadingData = false
+    private let selectFileButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("Select file", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.tintColor = .black
+        btn.backgroundColor = .white
+        btn.layer.cornerRadius = 10
+        btn.layer.borderWidth = 1
+        btn.layer.borderColor = UIColor.black.cgColor
+        btn.clipsToBounds = true
+        return btn
+    }()
+    
+    private let showFileButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("Show file", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.tintColor = .black
+        btn.backgroundColor = .white
+        btn.layer.cornerRadius = 10
+        btn.layer.borderWidth = 1
+        btn.layer.borderColor = UIColor.black.cgColor
+        btn.clipsToBounds = true
+        return btn
+    }()
+    
+    var isLoadingData = false // this prevent multiple fetching because scrollViewDidScroll is invoked a lot of times
+    var isPickingFile = false // this prevent multiple picking because method is invoked a lot of times
     
     // MARK: Object lifecycle
     
@@ -103,7 +132,9 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         self.view.backgroundColor = .white
                 
         self.view.addSubview(tableView)
-        self.view.addSubview(addButton)
+        self.view.addSubview(addWordButton)
+        self.view.addSubview(selectFileButton)
+        self.view.addSubview(showFileButton)
         
         tableView.addSubview(refreshControl)
         
@@ -119,19 +150,37 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
             tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
         ])
         
-        addButton.translatesAutoresizingMaskIntoConstraints = false
+        addWordButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            addButton.heightAnchor.constraint(equalToConstant: CGFloat(50)),
-            addButton.widthAnchor.constraint(equalToConstant: CGFloat(100)),
-            addButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -30),
-            addButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
+            addWordButton.heightAnchor.constraint(equalToConstant: CGFloat(40)),
+            addWordButton.widthAnchor.constraint(equalToConstant: CGFloat(100)),
+            addWordButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -30),
+            addWordButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -130),
+        ])
+        
+        selectFileButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            selectFileButton.heightAnchor.constraint(equalToConstant: CGFloat(40)),
+            selectFileButton.widthAnchor.constraint(equalToConstant: CGFloat(100)),
+            selectFileButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -30),
+            selectFileButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -70),
+        ])
+        
+        showFileButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            showFileButton.heightAnchor.constraint(equalToConstant: CGFloat(40)),
+            showFileButton.widthAnchor.constraint(equalToConstant: CGFloat(100)),
+            showFileButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -30),
+            showFileButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
         ])
     }
     
     private func setupObserves()
     {
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshTable), name: .addedWordToListWordsNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchNextWords(_:)), name: .addedWordToListWordsNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTable), name: .deletedWordFromListWordsNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTable), name: .addedWordToFavoriteListWordsNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTable), name: .deletedWordFromFavoriteListWordsNotification, object: nil)
@@ -142,6 +191,34 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         fetchAllWords(mode: .update_current)
         
         self.refreshControl.endRefreshing()
+    }
+    
+    @objc private func fetchNextWords(_ notification: Notification)
+    {
+        fetchAllWords(mode: .fetch_next)
+    }
+    
+    private func setupActions()
+    {
+        refreshControl.addTarget(self, action: #selector(refreshTable), for: UIControl.Event.valueChanged)
+        
+        addWordButton.addAction(UIAction { [weak self] _ in
+            self?.showAddWordController(
+                title: "Add word",
+                message: "Type word that needs to be added to the end of the file.",
+                completion: { word in
+                    self?.addWord(word: word)
+                }
+            )
+        }, for: .touchUpInside)
+        
+        selectFileButton.addAction(UIAction { [weak self] _ in
+            self?.selectAndMoveFile()
+        }, for: .touchUpInside)
+        
+        showFileButton.addAction(UIAction { [weak self] _ in
+            self?.previewFile()
+        }, for: .touchUpInside)
     }
     
     // MARK: Routing
@@ -156,23 +233,6 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         }
     }
     
-    private func setupActions()
-    {
-        refreshControl.addTarget(self, action: #selector(refreshTable), for: UIControl.Event.valueChanged)
-        
-        addButton.addAction(UIAction { [weak self] _ in
-            self?.showAddWordController(
-                title: "Add word",
-                message: "Type word that needs to be added to the end of the file.",
-                completion: { word in
-                    let request = ListWords.AddWord.Request(word: word)
-                    self?.interactor?.addWord(request: request)
-                }
-            )
-        }, for: .touchUpInside)
-    }
-    
-    
     // MARK: - Display logic
     
     var displayedWords: Words = []
@@ -180,18 +240,26 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
     
     func displayFetchedAllWords(viewModel: ListWords.FetchAllWords.ViewModel)
     {
-        displayedWords = viewModel.displayedWords
-        favoriteWords = viewModel.displayedFavoriteWords
+        displayedWords = viewModel.listWords
+        favoriteWords = viewModel.favoriteListWords
         tableView.reloadData()
     }
     
     func displayAddWordResult(viewModel: ListWords.AddWord.ViewModel)
     {
-        if viewModel.result == .success {
-            MessageManager.shared.showAlert(message: ("Word have been added", .info), from: self)
-        } else {
-            MessageManager.shared.showAlert(message: ("Word have not been added", .alert), from: self)
-        }
+        MessageProvider.shared.showAlert(message: ("Word -\(viewModel.word!)- was added", .info), from: self)
+    }
+    
+    func displayFileMovedResult(viewModel: ListWords.PickFile.ViewModel)
+    {
+        MessageProvider.shared.showAlert(message: ("File was copied", .info), from: self)
+        
+        refreshTables()
+    }
+
+    func displayError(errorMessage: String)
+    {
+        MessageProvider.shared.showAlert(message: (errorMessage, .alert), from: self)
     }
     
     private func showAddWordController(title: String, message: String, completion: @escaping (String?)->Void)
@@ -217,6 +285,19 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         
         showDetailViewController(addWordController, sender: nil)
     }
+    
+    private func selectAndMoveFile() {
+        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.item], asCopy: true)
+        documentPicker.delegate = self
+        documentPicker.modalPresentationStyle = .fullScreen
+        self.present(documentPicker, animated: true, completion: nil)
+    }
+    
+    private func previewFile() {
+        let previewFile = FilePreview()
+        previewFile.modalPresentationStyle = .popover
+        self.present(previewFile, animated: true, completion: nil)
+    }
 }
 
 
@@ -236,6 +317,24 @@ extension ListWordsViewController
         
         router?.routeToWordDetails(segue: nil)
     }
+    
+    func moveFile(sourceURL: URL)
+    {
+        let request = ListWords.PickFile.Request(fileURL: sourceURL)
+        interactor?.pickFile(request: request)
+    }
+    
+    func refreshTables()
+    {
+        let request = ListWords.RefreshDBTAbles.Request()
+        interactor?.refreshDBTables(request: request)
+    }
+    
+    func addWord(word: String?)
+    {
+        let request = ListWords.AddWord.Request(word: word)
+        interactor?.addWord(request: request)
+    }
 }
 
 
@@ -245,7 +344,6 @@ extension ListWordsViewController: UITableViewDataSource
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
         let headerView = UIView()
-        
         
         let label = UILabel()
         label.textAlignment = .left
@@ -348,5 +446,29 @@ extension ListWordsViewController: UITableViewDelegate
 
             fetchAllWords(mode: .fetch_next)
         }
+    }
+}
+
+extension ListWordsViewController: UIDocumentPickerDelegate
+{
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) 
+    {
+        guard let sourceURL = urls.first else { return }
+        
+        if !isPickingFile {
+            
+            // this prevent multiple picking because method is invoked a lot of times
+            isPickingFile = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+                self?.isPickingFile = false
+            }
+            
+            moveFile(sourceURL: sourceURL)
+        }
+    }
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) 
+    {
+        print("User cancel document picking.")
     }
 }

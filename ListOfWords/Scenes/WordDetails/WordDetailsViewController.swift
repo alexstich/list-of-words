@@ -305,28 +305,28 @@ class WordDetailsViewController: UIViewController, WordDetailsDisplayLogic
     {
         if viewModel.isFavorite {
             markFavoriteButton.setTitle("Mark as unfavourite", for: .normal)
-            MessageManager.shared.showAlert(message: ("Word have been added to favorite", .info), from: self)
+            MessageProvider.shared.showAlert(message: ("Word have been added to favorite", .info), from: self)
         } else {
             markFavoriteButton.setTitle("Mark as favourite", for: .normal)
-            MessageManager.shared.showAlert(message: ("Word have been removed from favorite", .info), from: self)
+            MessageProvider.shared.showAlert(message: ("Word have been removed from favorite", .info), from: self)
         }
     }
     
     func displayAddWordResult(viewModel: WordDetails.AddWord.ViewModel)
     {
         if viewModel.result == .success {
-            MessageManager.shared.showAlert(message: ("Word have been added", .info), from: self)
+            MessageProvider.shared.showAlert(message: ("Word have been added", .info), from: self)
         } else {
-            MessageManager.shared.showAlert(message: ("Word have not been added", .alert), from: self)
+            MessageProvider.shared.showAlert(message: ("Word have not been added", .alert), from: self)
         }
     }
     
     func displayDeleteWordResult(viewModel: WordDetails.DeleteWord.ViewModel)
     {
         if viewModel.result == .success {
-            MessageManager.shared.showAlert(message: ("Word have been deleted", .info), from: self)
+            MessageProvider.shared.showAlert(message: ("Word have been deleted", .info), from: self)
         } else {
-            MessageManager.shared.showAlert(message: ("Word have not been deleted", .alert), from: self)
+            MessageProvider.shared.showAlert(message: ("Word have not been deleted", .alert), from: self)
         }
     }
 }

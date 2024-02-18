@@ -3,6 +3,25 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "closure #1 in ListWordsInteractor.fetchListWords():ListWordsInteractor.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self?.fullListWords.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in DataProvider.refreshDBTables(completion:):DataProvider.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.configuration.fileURL.path">
+            </PersistentString>
+            <PersistentString
+               value = "Bundle.main.path(forResource:&quot;list_of_words&quot;, ofType:&quot;txt&quot;)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in DatabaseManager.fetchFavoriteWords(limit:offset:completion:):DatabaseManager.swift">
          <PersistentStrings>
             <PersistentString
@@ -12,20 +31,6 @@
                value = "sqlite3_column_text(queryStatement, 1)">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in ListWordsInteractor.fetchListWords():ListWordsInteractor.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self?.fullListWords.count">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "WordDetailsInteractor.fetchWord(request:):WordDetailsInteractor.swift">
-      </ContextState>
-      <ContextState
-         contextName = "WordDetailsPresenter.presentWord(response:):WordDetailsPresenter.swift">
       </ContextState>
       <ContextState
          contextName = "ListWordsViewController.displayFetchedFavoriteListWords(viewModel:):ListWordsViewController.swift">
@@ -42,6 +47,12 @@
                value = "displayedWords">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "WordDetailsInteractor.fetchWord(request:):WordDetailsInteractor.swift">
+      </ContextState>
+      <ContextState
+         contextName = "WordDetailsPresenter.presentWord(response:):WordDetailsPresenter.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

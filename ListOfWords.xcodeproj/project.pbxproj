@@ -14,25 +14,30 @@
 		FA1031932B7773A300FFBDC3 /* ListOfWordsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1031922B7773A300FFBDC3 /* ListOfWordsTests.swift */; };
 		FA10319D2B7773A300FFBDC3 /* ListOfWordsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA10319C2B7773A300FFBDC3 /* ListOfWordsUITests.swift */; };
 		FA10319F2B7773A300FFBDC3 /* ListOfWordsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA10319E2B7773A300FFBDC3 /* ListOfWordsUITestsLaunchTests.swift */; };
-		FA33EEBE2B7A926F00E5C3BF /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33EEBD2B7A926F00E5C3BF /* DatabaseManager.swift */; };
+		FA33EEBE2B7A926F00E5C3BF /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33EEBD2B7A926F00E5C3BF /* DBManager.swift */; };
+		FA3E11E72B826911004DA7EF /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3E11E62B826911004DA7EF /* Result.swift */; };
+		FA3E11E92B828BFA004DA7EF /* FilePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3E11E82B828BFA004DA7EF /* FilePreview.swift */; };
 		FA44298A2B7796B50087F5EB /* ListWordsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4429842B7796B50087F5EB /* ListWordsPresenter.swift */; };
 		FA44298B2B7796B50087F5EB /* ListWordsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4429852B7796B50087F5EB /* ListWordsWorker.swift */; };
 		FA44298C2B7796B50087F5EB /* ListWordsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4429862B7796B50087F5EB /* ListWordsRouter.swift */; };
 		FA44298D2B7796B50087F5EB /* ListWordsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4429872B7796B50087F5EB /* ListWordsModels.swift */; };
 		FA44298E2B7796B50087F5EB /* ListWordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4429882B7796B50087F5EB /* ListWordsViewController.swift */; };
 		FA44298F2B7796B50087F5EB /* ListWordsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4429892B7796B50087F5EB /* ListWordsInteractor.swift */; };
-		FA461B9F2B80984200201DAB /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA461B9E2B80984200201DAB /* MessageManager.swift */; };
+		FA461B9F2B80984200201DAB /* MessageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA461B9E2B80984200201DAB /* MessageProvider.swift */; };
 		FA461BA12B80986000201DAB /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA461BA02B80986000201DAB /* MessageView.swift */; };
 		FA461BA32B809F6E00201DAB /* Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA461BA22B809F6E00201DAB /* Aliases.swift */; };
+		FA461BA52B80A7AB00201DAB /* FileProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA461BA42B80A7AB00201DAB /* FileProcessor.swift */; };
+		FA461BA72B80A80600201DAB /* LineReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA461BA62B80A80600201DAB /* LineReader.swift */; };
+		FA461BAD2B80AA4E00201DAB /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA461BAC2B80AA4E00201DAB /* DataProvider.swift */; };
+		FA915D8A2B81FF7800A9AE65 /* DataProviderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA915D892B81FF7800A9AE65 /* DataProviderConfiguration.swift */; };
+		FA915D8C2B82012700A9AE65 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA915D8B2B82012700A9AE65 /* Config.plist */; };
 		FA95DA892B78DF9A006BC414 /* WordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95DA882B78DF9A006BC414 /* WordTableViewCell.swift */; };
-		FA95DA8C2B78E4A4006BC414 /* list_of_words.txt in Resources */ = {isa = PBXBuildFile; fileRef = FA95DA8B2B78E4A4006BC414 /* list_of_words.txt */; };
 		FA95DA942B79366E006BC414 /* WordDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95DA8E2B79366E006BC414 /* WordDetailsPresenter.swift */; };
 		FA95DA952B79366E006BC414 /* WordDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95DA8F2B79366E006BC414 /* WordDetailsWorker.swift */; };
 		FA95DA962B79366E006BC414 /* WordDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95DA902B79366E006BC414 /* WordDetailsRouter.swift */; };
 		FA95DA972B79366E006BC414 /* WordDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95DA912B79366E006BC414 /* WordDetailsModels.swift */; };
 		FA95DA982B79366E006BC414 /* WordDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95DA922B79366E006BC414 /* WordDetailsViewController.swift */; };
 		FA95DA992B79366E006BC414 /* WordDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95DA932B79366E006BC414 /* WordDetailsInteractor.swift */; };
-		FAA3D0F12B7D4173003D06B7 /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA3D0F02B7D4173003D06B7 /* ResponseError.swift */; };
 		FAE8812E2B7E94A9006F0962 /* ExtNotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE8812D2B7E94A9006F0962 /* ExtNotificationName.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,25 +71,30 @@
 		FA10319C2B7773A300FFBDC3 /* ListOfWordsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfWordsUITests.swift; sourceTree = "<group>"; };
 		FA10319E2B7773A300FFBDC3 /* ListOfWordsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfWordsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FA33EEB82B7A8AD800E5C3BF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		FA33EEBD2B7A926F00E5C3BF /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		FA33EEBD2B7A926F00E5C3BF /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
+		FA3E11E62B826911004DA7EF /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		FA3E11E82B828BFA004DA7EF /* FilePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePreview.swift; sourceTree = "<group>"; };
 		FA4429842B7796B50087F5EB /* ListWordsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListWordsPresenter.swift; sourceTree = "<group>"; };
 		FA4429852B7796B50087F5EB /* ListWordsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListWordsWorker.swift; sourceTree = "<group>"; };
 		FA4429862B7796B50087F5EB /* ListWordsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListWordsRouter.swift; sourceTree = "<group>"; };
 		FA4429872B7796B50087F5EB /* ListWordsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListWordsModels.swift; sourceTree = "<group>"; };
 		FA4429882B7796B50087F5EB /* ListWordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListWordsViewController.swift; sourceTree = "<group>"; };
 		FA4429892B7796B50087F5EB /* ListWordsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListWordsInteractor.swift; sourceTree = "<group>"; };
-		FA461B9E2B80984200201DAB /* MessageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
+		FA461B9E2B80984200201DAB /* MessageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageProvider.swift; sourceTree = "<group>"; };
 		FA461BA02B80986000201DAB /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		FA461BA22B809F6E00201DAB /* Aliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aliases.swift; sourceTree = "<group>"; };
+		FA461BA42B80A7AB00201DAB /* FileProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProcessor.swift; sourceTree = "<group>"; };
+		FA461BA62B80A80600201DAB /* LineReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineReader.swift; sourceTree = "<group>"; };
+		FA461BAC2B80AA4E00201DAB /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		FA915D892B81FF7800A9AE65 /* DataProviderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderConfiguration.swift; sourceTree = "<group>"; };
+		FA915D8B2B82012700A9AE65 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		FA95DA882B78DF9A006BC414 /* WordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordTableViewCell.swift; sourceTree = "<group>"; };
-		FA95DA8B2B78E4A4006BC414 /* list_of_words.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = list_of_words.txt; sourceTree = "<group>"; };
 		FA95DA8E2B79366E006BC414 /* WordDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailsPresenter.swift; sourceTree = "<group>"; };
 		FA95DA8F2B79366E006BC414 /* WordDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailsWorker.swift; sourceTree = "<group>"; };
 		FA95DA902B79366E006BC414 /* WordDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailsRouter.swift; sourceTree = "<group>"; };
 		FA95DA912B79366E006BC414 /* WordDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailsModels.swift; sourceTree = "<group>"; };
 		FA95DA922B79366E006BC414 /* WordDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailsViewController.swift; sourceTree = "<group>"; };
 		FA95DA932B79366E006BC414 /* WordDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailsInteractor.swift; sourceTree = "<group>"; };
-		FAA3D0F02B7D4173003D06B7 /* ResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
 		FAE8812D2B7E94A9006F0962 /* ExtNotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtNotificationName.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,14 +147,17 @@
 		FA10317A2B7773A000FFBDC3 /* ListOfWords */ = {
 			isa = PBXGroup;
 			children = (
-				FA95DA8A2B78E48E006BC414 /* Resources */,
-				FA4429912B779D280087F5EB /* Helpers */,
 				FA4429832B7795170087F5EB /* Scenes */,
+				FA461BAE2B80AA6900201DAB /* Common */,
+				FA4429912B779D280087F5EB /* Providers */,
+				FA461BA82B80A96300201DAB /* Services */,
+				FA461BAB2B80A9AB00201DAB /* Extensions */,
 				FA10317B2B7773A000FFBDC3 /* AppDelegate.swift */,
 				FA10317D2B7773A000FFBDC3 /* SceneDelegate.swift */,
 				FA1031842B7773A300FFBDC3 /* Assets.xcassets */,
 				FA1031862B7773A300FFBDC3 /* LaunchScreen.storyboard */,
 				FA1031892B7773A300FFBDC3 /* Info.plist */,
+				FA915D8B2B82012700A9AE65 /* Config.plist */,
 			);
 			path = ListOfWords;
 			sourceTree = "<group>";
@@ -197,17 +210,59 @@
 			path = ShowWordsList;
 			sourceTree = "<group>";
 		};
-		FA4429912B779D280087F5EB /* Helpers */ = {
+		FA4429912B779D280087F5EB /* Providers */ = {
 			isa = PBXGroup;
 			children = (
-				FA33EEBD2B7A926F00E5C3BF /* DatabaseManager.swift */,
-				FAA3D0F02B7D4173003D06B7 /* ResponseError.swift */,
-				FAE8812D2B7E94A9006F0962 /* ExtNotificationName.swift */,
-				FA461B9E2B80984200201DAB /* MessageManager.swift */,
+				FA461B9E2B80984200201DAB /* MessageProvider.swift */,
 				FA461BA02B80986000201DAB /* MessageView.swift */,
-				FA461BA22B809F6E00201DAB /* Aliases.swift */,
+				FA461BAC2B80AA4E00201DAB /* DataProvider.swift */,
+				FA915D892B81FF7800A9AE65 /* DataProviderConfiguration.swift */,
 			);
-			path = Helpers;
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		FA461BA82B80A96300201DAB /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				FA461BAA2B80A98F00201DAB /* File */,
+				FA461BA92B80A97E00201DAB /* Database */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		FA461BA92B80A97E00201DAB /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				FA33EEBD2B7A926F00E5C3BF /* DBManager.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		FA461BAA2B80A98F00201DAB /* File */ = {
+			isa = PBXGroup;
+			children = (
+				FA461BA42B80A7AB00201DAB /* FileProcessor.swift */,
+				FA461BA62B80A80600201DAB /* LineReader.swift */,
+				FA3E11E82B828BFA004DA7EF /* FilePreview.swift */,
+			);
+			path = File;
+			sourceTree = "<group>";
+		};
+		FA461BAB2B80A9AB00201DAB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FAE8812D2B7E94A9006F0962 /* ExtNotificationName.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		FA461BAE2B80AA6900201DAB /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				FA461BA22B809F6E00201DAB /* Aliases.swift */,
+				FA3E11E62B826911004DA7EF /* Result.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		FA95DA872B78DF76006BC414 /* cells */ = {
@@ -216,14 +271,6 @@
 				FA95DA882B78DF9A006BC414 /* WordTableViewCell.swift */,
 			);
 			path = cells;
-			sourceTree = "<group>";
-		};
-		FA95DA8A2B78E48E006BC414 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				FA95DA8B2B78E4A4006BC414 /* list_of_words.txt */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		FA95DA8D2B79364B006BC414 /* WordDetails */ = {
@@ -343,9 +390,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA915D8C2B82012700A9AE65 /* Config.plist in Resources */,
 				FA1031882B7773A300FFBDC3 /* LaunchScreen.storyboard in Resources */,
 				FA1031852B7773A300FFBDC3 /* Assets.xcassets in Resources */,
-				FA95DA8C2B78E4A4006BC414 /* list_of_words.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,26 +417,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA3E11E72B826911004DA7EF /* Result.swift in Sources */,
 				FA95DA972B79366E006BC414 /* WordDetailsModels.swift in Sources */,
+				FA3E11E92B828BFA004DA7EF /* FilePreview.swift in Sources */,
 				FAE8812E2B7E94A9006F0962 /* ExtNotificationName.swift in Sources */,
 				FA10317C2B7773A000FFBDC3 /* AppDelegate.swift in Sources */,
 				FA95DA982B79366E006BC414 /* WordDetailsViewController.swift in Sources */,
 				FA95DA992B79366E006BC414 /* WordDetailsInteractor.swift in Sources */,
 				FA10317E2B7773A000FFBDC3 /* SceneDelegate.swift in Sources */,
 				FA44298F2B7796B50087F5EB /* ListWordsInteractor.swift in Sources */,
-				FA461B9F2B80984200201DAB /* MessageManager.swift in Sources */,
+				FA461BA52B80A7AB00201DAB /* FileProcessor.swift in Sources */,
+				FA461B9F2B80984200201DAB /* MessageProvider.swift in Sources */,
 				FA44298A2B7796B50087F5EB /* ListWordsPresenter.swift in Sources */,
-				FA33EEBE2B7A926F00E5C3BF /* DatabaseManager.swift in Sources */,
+				FA33EEBE2B7A926F00E5C3BF /* DBManager.swift in Sources */,
 				FA95DA962B79366E006BC414 /* WordDetailsRouter.swift in Sources */,
 				FA44298D2B7796B50087F5EB /* ListWordsModels.swift in Sources */,
 				FA461BA12B80986000201DAB /* MessageView.swift in Sources */,
 				FA44298B2B7796B50087F5EB /* ListWordsWorker.swift in Sources */,
 				FA461BA32B809F6E00201DAB /* Aliases.swift in Sources */,
+				FA915D8A2B81FF7800A9AE65 /* DataProviderConfiguration.swift in Sources */,
 				FA44298C2B7796B50087F5EB /* ListWordsRouter.swift in Sources */,
 				FA95DA942B79366E006BC414 /* WordDetailsPresenter.swift in Sources */,
+				FA461BAD2B80AA4E00201DAB /* DataProvider.swift in Sources */,
 				FA44298E2B7796B50087F5EB /* ListWordsViewController.swift in Sources */,
 				FA95DA952B79366E006BC414 /* WordDetailsWorker.swift in Sources */,
-				FAA3D0F12B7D4173003D06B7 /* ResponseError.swift in Sources */,
+				FA461BA72B80A80600201DAB /* LineReader.swift in Sources */,
 				FA95DA892B78DF9A006BC414 /* WordTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

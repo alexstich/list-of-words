@@ -77,12 +77,16 @@ class WordDetailsInteractor: WordDetailsBusinessLogic, WordDetailsDataStore
     func addWord(request: WordDetails.AddWord.Request)
     {
         if word != nil {
-            worker?.addToListWords(word: word!)
-            let response = WordDetails.AddWord.Response(success: true, word: word!)
-            presenter?.presentAddWordResult(response: response)
+            worker?.addToListWords(word: word!) { [weak self] wordPosition in
+                
+                guard let self = self else { return }
+                
+                let response = WordDetails.AddWord.Response(success: true, word: self.word!)
+                self.presenter?.presentAddWordResult(response: response)
+                
+                NotificationCenter.default.post(name: .addedWordToListWordsNotification, object: nil, userInfo: ["wordPosition": wordPosition])
+            }
         }
-        
-        NotificationCenter.default.post(name: .addedWordToListWordsNotification, object: nil, userInfo: nil)
     }
     
     func deleteWord(request: WordDetails.DeleteWord.Request)

@@ -10,26 +10,30 @@ import UIKit
 
 enum ListWords
 {
-
     // MARK: Use cases
     
     enum FetchAllWords
     {
-        struct Request 
+        struct Lists
+        {
+            var listWords: Words
+            var favoriteListWords: Words
+        }
+        
+        struct Request
         {
             let mode: ListWordsInteractor.FetchingMode
         }
         
         struct Response
         {
-            var listWords: Words
-            var favoriteListWords: Words
+            var result: Result<Lists, Error>
         }
         
         struct ViewModel
         {
-            var displayedWords: Words
-            var displayedFavoriteWords: Words
+            var listWords: Words
+            var favoriteListWords: Words
         }
     }
     
@@ -42,7 +46,7 @@ enum ListWords
         
         struct Response
         {
-            var word: Word
+            var result: Result<Word?, Error>
         }
         
         struct ViewModel
@@ -53,10 +57,6 @@ enum ListWords
     
     enum AddWord
     {
-        enum Result {
-            case success, failure
-        }
-        
         struct Request
         {
             var word: Word?
@@ -64,14 +64,35 @@ enum ListWords
         
         struct Response
         {
-            var success: Bool = false
-            var word: Word?
+            var result: Result<Word?, Error>
         }
         
         struct ViewModel
         {
             var word: Word?
-            var result: Result = .failure
         }
+    }
+    
+    enum PickFile
+    {
+        struct Request{
+            let fileURL: URL
+        }
+        
+        struct Response
+        {
+            var result: Result<Bool, Error>
+        }
+        
+        struct ViewModel{}
+    }
+    
+    enum RefreshDBTAbles
+    {
+        struct Request{}
+        
+        struct Response{}
+        
+        struct ViewModel{}
     }
 }
