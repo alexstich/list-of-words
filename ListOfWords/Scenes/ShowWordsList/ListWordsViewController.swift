@@ -12,7 +12,7 @@ protocol ListWordsDisplayLogic: AnyObject
 {
     func displayFetchedAllWords(viewModel: ListWords.FetchAllWords.ViewModel)
     func displayAddWordResult(viewModel: ListWords.AddWord.ViewModel)
-    func displayFileMovedResult(viewModel: ListWords.PickFile.ViewModel)
+    func displayFileCopyResult(viewModel: ListWords.PickFile.ViewModel)
     func displayError(errorMessage: String)
 }
 
@@ -213,7 +213,7 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         }, for: .touchUpInside)
         
         selectFileButton.addAction(UIAction { [weak self] _ in
-            self?.selectAndMoveFile()
+            self?.selectAndCopyFile()
         }, for: .touchUpInside)
         
         showFileButton.addAction(UIAction { [weak self] _ in
@@ -250,7 +250,7 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         MessageProvider.shared.showAlert(message: ("Word -\(viewModel.word!)- was added", .info), from: self)
     }
     
-    func displayFileMovedResult(viewModel: ListWords.PickFile.ViewModel)
+    func displayFileCopyResult(viewModel: ListWords.PickFile.ViewModel)
     {
         MessageProvider.shared.showAlert(message: ("File was copied", .info), from: self)
         
@@ -286,7 +286,7 @@ final class ListWordsViewController: UIViewController, ListWordsDisplayLogic
         showDetailViewController(addWordController, sender: nil)
     }
     
-    private func selectAndMoveFile() {
+    private func selectAndCopyFile() {
         let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.item], asCopy: true)
         documentPicker.delegate = self
         documentPicker.modalPresentationStyle = .fullScreen
@@ -318,7 +318,7 @@ extension ListWordsViewController
         router?.routeToWordDetails(segue: nil)
     }
     
-    func moveFile(sourceURL: URL)
+    func copyFile(sourceURL: URL)
     {
         let request = ListWords.PickFile.Request(fileURL: sourceURL)
         interactor?.pickFile(request: request)
@@ -463,7 +463,7 @@ extension ListWordsViewController: UIDocumentPickerDelegate
                 self?.isPickingFile = false
             }
             
-            moveFile(sourceURL: sourceURL)
+            copyFile(sourceURL: sourceURL)
         }
     }
     

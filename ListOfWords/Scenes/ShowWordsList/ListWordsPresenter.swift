@@ -12,7 +12,7 @@ protocol ListWordsPresentationLogic
 {
     func presentFetchedAllWords(response: ListWords.FetchAllWords.Response)
     func presentAddWordResult(response: ListWords.AddWord.Response)
-    func presentFileMovedResult(response: ListWords.PickFile.Response)
+    func presentFileCopiedResult(response: ListWords.PickFile.Response)
 }
 
 final class ListWordsPresenter: ListWordsPresentationLogic
@@ -43,12 +43,12 @@ final class ListWordsPresenter: ListWordsPresentationLogic
         }
     }
 
-    func presentFileMovedResult(response: ListWords.PickFile.Response) 
+    func presentFileCopiedResult(response: ListWords.PickFile.Response) 
     {
         switch response.result {
         case .success(_):
             let viewModel = ListWords.PickFile.ViewModel()
-            viewController?.displayFileMovedResult(viewModel: viewModel)
+            viewController?.displayFileCopyResult(viewModel: viewModel)
         case .failure(let error):
             viewController?.displayError(errorMessage: error.localizedDescription)
         }

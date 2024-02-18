@@ -67,12 +67,12 @@ final class ListWordsInteractor: ListWordsBusinessLogic, ListWordsDataStore
     
     func pickFile(request: ListWords.PickFile.Request)
     {
-        worker?.selectAndMoveFile(sourceURL: request.fileURL, completion: { (isSuccessful, error) in
+        worker?.selectAndCopyFile(sourceURL: request.fileURL, completion: { (isSuccessful, error) in
             if isSuccessful {
-                self.presenter?.presentFileMovedResult(response: ListWords.PickFile.Response(result: .success(true)))
+                self.presenter?.presentFileCopiedResult(response: ListWords.PickFile.Response(result: .success(true)))
             } else if let error = error {
                 let error_ = NSError(domain: "Copying file error:\n\(error.localizedDescription)", code: 0)
-                self.presenter?.presentFileMovedResult(response: ListWords.PickFile.Response(result: .failure(error_)))
+                self.presenter?.presentFileCopiedResult(response: ListWords.PickFile.Response(result: .failure(error_)))
             }
         })
     }

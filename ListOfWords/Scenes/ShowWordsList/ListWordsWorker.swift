@@ -31,7 +31,7 @@ final class ListWordsWorker
         })
     }
     
-    func selectAndMoveFile(sourceURL: URL, completion: @escaping (Bool, Error?) -> Void) 
+    func selectAndCopyFile(sourceURL: URL, completion: @escaping (Bool, Error?) -> Void) 
     {
         guard let destinationURL = try? FileManager.default.url(
             for: .documentDirectory,
@@ -51,12 +51,12 @@ final class ListWordsWorker
             
             try FileManager.default.copyItem(at: sourceURL, to: destinationURL)
             
-            print("File moved: \(destinationURL.path)")
+            print("File copied: \(destinationURL.path)")
             
             completion(true, nil)
         } catch {
             
-            print("File moving error: \(error)")
+            print("File copy error: \(error)")
             
             completion(false, error)
         }
